@@ -5,7 +5,7 @@
             <id>1</id>
             <group>BACK</group>
             <name>Тяга гантели в наклоне</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10,8,6</repeats>
             <weight>18</weight>
             <external></external>
         </exercise>
@@ -13,7 +13,7 @@
             <id>2</id>
             <group>BACK</group>
             <name>Тяга в наклоне одной гантелью</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10,8,6</repeats>
             <weight>18</weight>
             <external></external>
         </exercise>
@@ -21,7 +21,7 @@
             <id>3</id>
             <group>SHOULDERS</group>
             <name>Жим гантелей стоя</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10,8</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>
@@ -29,7 +29,7 @@
             <id>4</id>
             <group>SHOULDERS</group>
             <name>Разведение гантелей в стороны</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>
@@ -37,7 +37,7 @@
             <id>5</id>
             <group>SHOULDERS</group>
             <name>Разведение гантелей в наклоне</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>
@@ -45,7 +45,7 @@
             <id>6</id>
             <group>SHOULDERS</group>
             <name>Шраги гантелями</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10,8</repeats>
             <weight>18</weight>
             <external></external>
         </exercise>
@@ -53,7 +53,7 @@
             <id>7</id>
             <group>LEGS</group>
             <name>Приседания с гантелями</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10,8</repeats>
             <weight>18</weight>
             <external></external>
         </exercise>
@@ -61,7 +61,7 @@
             <id>8</id>
             <group>LEGS</group>
             <name>Становая тяга гантелями на прямых ногах</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10,8</repeats>
             <weight>18</weight>
             <external></external>
         </exercise>
@@ -69,7 +69,7 @@
             <id>9</id>
             <group>LEGS</group>
             <name>Выпады с гантелями</name>
-            <repeats>12</repeats>
+            <repeats>12,10,10,8</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>
@@ -77,7 +77,7 @@
             <id>10</id>
             <group>LEGS</group>
             <name>Подъём на икры стоя с гантелями</name>
-            <repeats>12</repeats>
+            <repeats>12,10</repeats>
             <weight>18</weight>
             <external></external>
         </exercise>
@@ -85,7 +85,7 @@
             <id>11</id>
             <group>ARMS</group>
             <name>Сгибание на бицепс стоя</name>
-            <repeats>12</repeats>
+            <repeats>10,10,10</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>
@@ -93,7 +93,7 @@
             <id>12</id>
             <group>ARMS</group>
             <name>Поочерёдное сгибание рук хватом «молоток»</name>
-            <repeats>12</repeats>
+            <repeats>10,10</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>
@@ -101,7 +101,7 @@
             <id>13</id>
             <group>ARMS</group>
             <name>Сгибание рук сидя в наклоне</name>
-            <repeats>12</repeats>
+            <repeats>10,10,10</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>
@@ -109,7 +109,7 @@
             <id>14</id>
             <group>ARMS</group>
             <name>Разгибание руки назад с гантелью в наклоне</name>
-            <repeats>12</repeats>
+            <repeats>12,12,12</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>
@@ -117,7 +117,7 @@
             <id>15</id>
             <group>ARMS</group>
             <name>Разгибание одной рукой с гантелью из-за головы стоя</name>
-            <repeats>12</repeats>
+            <repeats>12,12,12</repeats>
             <weight>6</weight>
             <external></external>
         </exercise>

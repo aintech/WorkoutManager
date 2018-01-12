@@ -15,7 +15,7 @@ public class Exercise {
     
     private final int weight;
     
-    private final int[] repeats;
+    private final Repeat[] repeats;
     
     private final String external;
     
@@ -24,7 +24,10 @@ public class Exercise {
         this.muscleGroup = muscleGroup;
         this.name = name;
         this.weight = weight;
-        this.repeats = repeats;
+        this.repeats = new Repeat[repeats.length];
+        for (int i = 0; i < repeats.length; i++) {
+            this.repeats[i] = new Repeat(repeats[i]);
+        }
         this.external = external;
     }
 
@@ -44,10 +47,10 @@ public class Exercise {
         return name;
     }
     
-    public int[] getRepeats() {
+    public Repeat[] getRepeats() {
         return repeats;
     }
-
+    
     public String getExternal() {
         return external;
     }

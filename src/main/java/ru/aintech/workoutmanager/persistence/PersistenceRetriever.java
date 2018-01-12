@@ -2,6 +2,7 @@ package ru.aintech.workoutmanager.persistence;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,7 +39,8 @@ class PersistenceRetriever {
             Map<Integer, Exercise> exercisesById = new HashMap<>();
             
             try {
-                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("C:\\Projects\\WorkoutManager\\src\\main\\resources\\data\\Persistence.xml"));
+                File persist = new File(Thread.currentThread().getContextClassLoader().getResource("data/Persistence.xml").toURI());
+                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(persist);
                 Node rootNode = xml.getDocumentElement();
                 
                 Node exercisesNode = null;
@@ -62,7 +64,7 @@ class PersistenceRetriever {
                     MuscleGroup group = null;
                     String name = null;
                     int weight = 0;
-                    int[] repeats = null;
+                    int[] repeats = new int[0];
                     String external = null;
                     Exercise exercise = null;
 
@@ -140,7 +142,7 @@ class PersistenceRetriever {
                 
                 String schedule = scheduleNode.getTextContent();
                 
-            } catch (IOException | ParserConfigurationException | SAXException ex) {
+            } catch (IOException | ParserConfigurationException | SAXException | URISyntaxException ex) {
                 ex.printStackTrace();
             }
         }
