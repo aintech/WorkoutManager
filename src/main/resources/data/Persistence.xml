@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <exercises>
+        <exercise>
+            <id>1</id>
+            <group>BACK</group>
+            <name>Тяга гантели в наклоне</name>
+            <repeats>12</repeats>
+            <weight>18</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>2</id>
+            <group>BACK</group>
+            <name>Тяга в наклоне одной гантелью</name>
+            <repeats>12</repeats>
+            <weight>18</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>3</id>
+            <group>SHOULDERS</group>
+            <name>Жим гантелей стоя</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>4</id>
+            <group>SHOULDERS</group>
+            <name>Разведение гантелей в стороны</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>5</id>
+            <group>SHOULDERS</group>
+            <name>Разведение гантелей в наклоне</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>6</id>
+            <group>SHOULDERS</group>
+            <name>Шраги гантелями</name>
+            <repeats>12</repeats>
+            <weight>18</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>7</id>
+            <group>LEGS</group>
+            <name>Приседания с гантелями</name>
+            <repeats>12</repeats>
+            <weight>18</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>8</id>
+            <group>LEGS</group>
+            <name>Становая тяга гантелями на прямых ногах</name>
+            <repeats>12</repeats>
+            <weight>18</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>9</id>
+            <group>LEGS</group>
+            <name>Выпады с гантелями</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>10</id>
+            <group>LEGS</group>
+            <name>Подъём на икры стоя с гантелями</name>
+            <repeats>12</repeats>
+            <weight>18</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>11</id>
+            <group>ARMS</group>
+            <name>Сгибание на бицепс стоя</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>12</id>
+            <group>ARMS</group>
+            <name>Поочерёдное сгибание рук хватом «молоток»</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>13</id>
+            <group>ARMS</group>
+            <name>Сгибание рук сидя в наклоне</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>14</id>
+            <group>ARMS</group>
+            <name>Разгибание руки назад с гантелью в наклоне</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>15</id>
+            <group>ARMS</group>
+            <name>Разгибание одной рукой с гантелью из-за головы стоя</name>
+            <repeats>12</repeats>
+            <weight>6</weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>16</id>
+            <group></group>
+            <name>Кардио</name>
+            <repeats></repeats>
+            <weight></weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>17</id>
+            <group></group>
+            <name>Отжимания</name>
+            <repeats></repeats>
+            <weight></weight>
+            <external></external>
+        </exercise>
+        <exercise>
+            <id>18</id>
+            <group></group>
+            <name>Пресс</name>
+            <repeats></repeats>
+            <weight></weight>
+            <external></external>
+        </exercise>
+    </exercises>
+    <workouts>
+        <workout>
+            <id>1</id>
+            <name>Спина</name>
+            <exercises>1,2,1,2</exercises>
+        </workout>
+        <workout>
+            <id>2</id>
+            <name>Плечи</name>
+            <exercises>3,4,5,6,3,4,5,6</exercises>
+        </workout>
+        <workout>
+            <id>3</id>
+            <name>Кардио</name>
+            <exercises>16</exercises>
+        </workout>
+        <workout>
+            <id>4</id>
+            <name>Ноги</name>
+            <exercises>7,8,9,10,7,8,9,10</exercises>
+        </workout>
+        <workout>
+            <id>5</id>
+            <name>Руки</name>
+            <exercises>11,12,13,14,15,11,12,13,14,15</exercises>
+        </workout>
+        <workout>
+            <id>6</id>
+            <name>Пресс (+Грудь)</name>
+            <exercises>17,18,17,18</exercises>
+        </workout>
+    </workouts>
+    <schedule>BACK, SHOULDERS, CARDIO, LEGS, ARMS, PUSH-UPS</schedule>
+</root>

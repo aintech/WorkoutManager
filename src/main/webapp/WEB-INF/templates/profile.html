@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Workout Manager</title>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css"/>
+    </head>
+    <body>
+        <div align="center">
+            <h1>Workout Manager Home Page</h1>
+            <table align="center">
+                <tr>
+                    <td>
+                        
+                        <h1 th:text="*{user.username}">User Profile</h1>
+                        Username: <label th:text="*{user.username}"/> <br/>
+                        E-mail: <label th:text="*{user.email}"/> <br/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
