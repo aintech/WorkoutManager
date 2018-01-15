@@ -28,4 +28,9 @@ public class Repeat {
     public void setDone(int done) {
         this.done = done;
     }
+
+    @Override
+    public String toString() {
+        return "" + need + "/" + done;
+    }
 }

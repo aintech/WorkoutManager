@@ -12,6 +12,7 @@ import ru.aintech.workoutmanager.persistence.Exercise;
 import ru.aintech.workoutmanager.persistence.IWorkoutRepository;
 import ru.aintech.workoutmanager.persistence.Repeat;
 import ru.aintech.workoutmanager.persistence.Workout;
+import ru.aintech.workoutmanager.persistence.WorkoutScoreManager;
 
 /**
  *
@@ -41,6 +42,7 @@ public class WorkoutController {
     public String workout (@PathVariable("workoutId") Integer workoutId, Model model) {
         nextExerciseIndex = nextSetIndex = -1;
         workout = repo.getWorkout(workoutId);
+        exercise = null;
         model.addAttribute("workout", workout);
         model.addAttribute("nextBtnName", nextExerciseIndex == workout.getExercises().length - 1? "Finish Workout" : "Begin Workout");
         return "workout";
@@ -48,9 +50,6 @@ public class WorkoutController {
     
     @RequestMapping(value = "/{workoutId}", method = RequestMethod.POST)
     public String exerciseSwitch (@PathVariable("workoutId") Integer workoutId, @RequestParam(value = "action") String action, Model model) {
-        if (action.equals("next") && nextExerciseIndex == workout.getExercises().length - 1) {
-            return "redirect:/";
-        }
         workout = repo.getWorkout(workoutId);
         if (!model.containsAttribute("workout")) {
             model.addAttribute("workout", workout);
@@ -65,14 +64,23 @@ public class WorkoutController {
                 } else {
                     nextSetIndex = 0;
                     nextExerciseIndex++;
-//                        if (nextExerciseIndex > 0) {
-//                            for (Repeat repeat : workout.getExercises()[nextExerciseIndex-1].getRepeats()) {
-//                                System.out.println(String.valueOf(repeat.getDone()));
-//                            }
-//                        }
                 }
             }
+        } else if (action.matches("\\d+")) {
+            workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].setDone(Integer.parseInt(action));
+            if (nextSetIndex < exercise.getRepeats().length-1) {
+                nextSetIndex++;
+            } else {
+                nextSetIndex = 0;
+                nextExerciseIndex++;
+            }
         }
+        
+        if (nextExerciseIndex == workout.getExercises().length) {
+            WorkoutScoreManager.getInstance().persistWorkoutScore(workout);
+            return "redirect:/";
+        }
+        
         exercise = workout.getExercises()[nextExerciseIndex];
         Repeat repeat = exercise.getRepeats()[nextSetIndex];
         model.addAttribute("exercise", exercise);

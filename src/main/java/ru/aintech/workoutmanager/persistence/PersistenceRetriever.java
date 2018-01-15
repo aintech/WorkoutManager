@@ -131,7 +131,7 @@ class PersistenceRetriever {
                                     exerciseIds = new int[vals.length];
                                     for (int a = 0; a < vals.length; a++) { exerciseIds[a] = Integer.parseInt(vals[a]); }
                                     exercises = new Exercise[vals.length];
-                                    for (int a = 0; a < vals.length; a++) { exercises[a] = exercisesById.get(exerciseIds[a]); }
+                                    for (int a = 0; a < vals.length; a++) { exercises[a] = exercisesById.get(exerciseIds[a]).getCopy(); }
                                     break;
                             }
                         }

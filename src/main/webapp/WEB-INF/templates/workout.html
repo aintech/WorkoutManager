@@ -22,17 +22,24 @@
                         </td>
                     </tr>
                 </table>
-<!--                <form th:object="${repeat}" method="post">
-                    <input type="text" th:field="*{done}"/>
-                </form>-->
             </div>
             <form action="#" th:action="@{'/workout/' + ${workout.id}}" th:object="${repeat}" method="post">
-                <div th:if="${repeat != null}">
-                    <input type="text" th:field="*{done}"/>
+                <div th:if="${repeat == null}">
+                    <button type="submit" name="action" th:value="@{next}" style="width: 120px; height: 30px;">
+                        <span th:text="${nextBtnName}"/>
+                    </button>
                 </div>
-                <button type="submit" name="action" value="next" style="width: 120px; height: 30px;">
-                    <span th:text="${nextBtnName}"/>
-                </button>
+                <div th:if="${repeat != null}">
+                    <table>
+                        <tr>
+                            <td th:each="i : ${#numbers.sequence(0, repeat.need)}">
+                                <button type="submit" name="action" th:value="${i}">
+                                    <span th:text="${i}"/>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </form>
             <table align="center">
                 <tr>

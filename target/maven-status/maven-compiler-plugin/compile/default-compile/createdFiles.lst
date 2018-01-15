@@ -7,6 +7,7 @@ ru\aintech\workoutmanager\persistence\UserRepository.class
 ru\aintech\workoutmanager\persistence\MuscleGroup.class
 ru\aintech\workoutmanager\persistence\Exercise.class
 ru\aintech\workoutmanager\web\WorkoutStyleProvider.class
+ru\aintech\workoutmanager\persistence\Repeat.class
 ru\aintech\workoutmanager\persistence\ExerciseRepository.class
 ru\aintech\workoutmanager\config\RootConfig.class
 ru\aintech\workoutmanager\config\WebConfig.class

@@ -55,28 +55,34 @@ public class Exercise {
         return external;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + this.id;
-        return hash;
+    public Exercise getCopy () {
+        int[] reps = new int[repeats.length];
+        for (int i = 0; i < reps.length; i++) { reps[i] = repeats[i].getNeed(); }
+        return new Exercise(id, muscleGroup, name, weight, reps, external);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Exercise other = (Exercise) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
-    }
+    
+//    @Override
+//    public int hashCode() {
+//        int hash = 7;
+//        hash = 79 * hash + this.id;
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) {
+//            return true;
+//        }
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (getClass() != obj.getClass()) {
+//            return false;
+//        }
+//        final Exercise other = (Exercise) obj;
+//        if (this.id != other.id) {
+//            return false;
+//        }
+//        return true;
+//    }
 }
