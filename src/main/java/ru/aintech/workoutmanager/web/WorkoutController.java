@@ -1,6 +1,5 @@
 package ru.aintech.workoutmanager.web;
 
-import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +32,8 @@ public class WorkoutController {
     
     private int nextSetIndex;
     
+    private WorkoutState state;
+    
     @Autowired
     public WorkoutController(IWorkoutRepository repo) {
         this.repo = repo;
@@ -43,28 +44,36 @@ public class WorkoutController {
         nextExerciseIndex = nextSetIndex = -1;
         workout = repo.getWorkout(workoutId);
         exercise = null;
+        state = WorkoutState.BEGIN;
         model.addAttribute("workout", workout);
-        model.addAttribute("nextBtnName", nextExerciseIndex == workout.getExercises().length - 1? "Finish Workout" : "Begin Workout");
+        model.addAttribute("state", state);
+        model.addAttribute("buttonName", "Begin Workout");
         return "workout";
     }
     
     @RequestMapping(value = "/{workoutId}", method = RequestMethod.POST)
-    public String exerciseSwitch (@PathVariable("workoutId") Integer workoutId, @RequestParam(value = "action") String action, Model model) {
+    public String exerciseSwitch (@PathVariable("workoutId") Integer workoutId, @RequestParam(value = "action", defaultValue = "empty") String action, Model model) {
+        if (state == WorkoutState.FINISH) {
+            WorkoutScoreManager.getInstance().persistWorkoutScore(workout);
+            return "redirect:/";
+        }
+        
         workout = repo.getWorkout(workoutId);
         if (!model.containsAttribute("workout")) {
             model.addAttribute("workout", workout);
         }
-        if (action.equals("next")) {
-            if (exercise == null) {
-                nextExerciseIndex++;
-                nextSetIndex++;
-            } else {
-                if (nextSetIndex < exercise.getRepeats().length-1) {
-                    nextSetIndex++;
-                } else {
+        
+        if (action.equals("proceedAction")) {
+            switch (state) {
+                case BEGIN:
+                    nextExerciseIndex = 0;
                     nextSetIndex = 0;
+                    state = WorkoutState.PROCESS;
+                    break;
+                case PROCESS:
                     nextExerciseIndex++;
-                }
+                    nextSetIndex = 0;
+                    break;
             }
         } else if (action.matches("\\d+")) {
             workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].setDone(Integer.parseInt(action));
@@ -74,19 +83,48 @@ public class WorkoutController {
                 nextSetIndex = 0;
                 nextExerciseIndex++;
             }
+        } else if (action.equals("empty")) {//Подразумевается, что была нажата клавиша Enter
+            switch (state) {
+                case BEGIN:
+                    nextExerciseIndex = 0;
+                    nextSetIndex = 0;
+                    state = WorkoutState.PROCESS;
+                    break;
+                case PROCESS:
+                    Exercise exer = workout.getExercises()[nextExerciseIndex];
+                    if (exer != null && exer.getRepeats() != null && exer.getRepeats().length > 0) {
+                        workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].setDone(workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].getNeed());
+                    }
+                    if (nextSetIndex < exercise.getRepeats().length-1) {
+                        nextSetIndex++;
+                    } else {
+                        nextSetIndex = 0;
+                        nextExerciseIndex++;
+                    }
+                    break;
+            }
         }
         
-        if (nextExerciseIndex == workout.getExercises().length) {
-            WorkoutScoreManager.getInstance().persistWorkoutScore(workout);
-            return "redirect:/";
+        boolean noRepeat = nextExerciseIndex < workout.getExercises().length && (workout.getExercises()[nextExerciseIndex].getRepeats() == null || workout.getExercises()[nextExerciseIndex].getRepeats().length == 0);
+        
+        if (noRepeat && nextExerciseIndex == workout.getExercises().length - 1) {
+            exercise = workout.getExercises()[nextExerciseIndex];
+            state = WorkoutState.FINISH;
+        } else {
+            if (nextExerciseIndex == workout.getExercises().length) {
+                state = WorkoutState.FINISH;
+            } else {
+                exercise = workout.getExercises()[nextExerciseIndex];
+                if (nextSetIndex < exercise.getRepeats().length) {
+                    Repeat repeat = exercise.getRepeats()[nextSetIndex];
+                    model.addAttribute("repeat", repeat);
+                }
+            }
         }
         
-        exercise = workout.getExercises()[nextExerciseIndex];
-        Repeat repeat = exercise.getRepeats()[nextSetIndex];
         model.addAttribute("exercise", exercise);
-        model.addAttribute("repeats", Arrays.asList(exercise.getRepeats()));
-        model.addAttribute("repeat", repeat);
-        model.addAttribute("nextBtnName", nextExerciseIndex == workout.getExercises().length - 1? "Finish Workout": (nextSetIndex < exercise.getRepeats().length-1)? "Next Set": "Next Exercise");
+        model.addAttribute("state", state);
+        model.addAttribute("buttonName", state == WorkoutState.FINISH? "Finish Workout": "Next Exercise");
         return "workout";
     }
 }

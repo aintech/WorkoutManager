@@ -1,13 +1,19 @@
 package ru.aintech.workoutmanager.persistence;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Yaremchuk E.N. (aka Aintech)
@@ -28,7 +34,7 @@ public class WorkoutScoreManager {
     
     public void persistWorkoutScore (Workout workout) {
         StringBuilder workoutScore = new StringBuilder("\n");
-        workoutScore.append(workout.getName()).append(" - ").append(DATE_FORMAT.format(new Date())).append("\n");
+        workoutScore.append(workout.getId()).append(" ").append(workout.getName()).append(" - ").append(DATE_FORMAT.format(new Date())).append("\n");
         for (Exercise exercise : workout.getExercises()) {
             String score = exercise.getName() + " (" + exercise.getWeight() + " кг)" + " :";
             for (Repeat rep : exercise.getRepeats()) {
@@ -43,5 +49,29 @@ public class WorkoutScoreManager {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        PersistenceRetriever.getInstance().rewriteWorkoutId();
+    }
+    
+    public int getWorkoutId () {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(scoreFile), "UTF-8"));
+            List<String> lines = new ArrayList<>();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            
+            for (int i = lines.size()-1; i >= 0; i--) {
+                if (lines.get(i) != null && !lines.get(i).isEmpty()) {
+                    if (lines.get(i).matches("\\d+.*")) {
+                        String value = lines.get(i).substring(0, lines.get(i).indexOf(" "));
+                        return Integer.parseInt(value) + 1;
+                    }
+                }
+            }
+        } catch (IOException  ex) {
+            ex.printStackTrace();
+        }
+        return 1;
     }
 }

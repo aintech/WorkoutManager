@@ -12,7 +12,7 @@
                 <tr>
                     <td th:each="workout : ${workouts}" th:style="@{'width: 100px; height: 100px; border: solid 1px aquamarine; text-align: center;'}">
                         <a th:href="@{'http://localhost:8080/workout/' + ${workout.id}}">
-                            <div th:style="@{'width: 100px; height: 100px; background-color: aliceblue;'}">
+                            <div th:style="@{'width: 100px; height: 100px; background-color: ' + ${workout.color}}">
                                 <span th:text="${workout.name}"></span>
                             </div>
                         </a>

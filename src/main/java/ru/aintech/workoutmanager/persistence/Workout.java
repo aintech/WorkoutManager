@@ -36,4 +36,8 @@ public class Workout {
     public Exercise[] getExercises() {
         return exercises;
     }
+    
+    public String getColor () {
+        return PersistenceRetriever.getInstance().getWorkoutColor(id);
+    }
 }

@@ -31,6 +31,10 @@ class PersistenceRetriever {
     
     private static final List<Workout> workouts = new ArrayList<>();
     
+    private static Integer maxWorkoutId = 0;
+    
+    private Integer workoutId;
+    
     static {
         if (exercises.isEmpty()) {
             
@@ -138,9 +142,10 @@ class PersistenceRetriever {
                     }
                     
                     workouts.add(new Workout(id, name, exercises));
+                    maxWorkoutId = Math.max(id, maxWorkoutId);
                 }
                 
-                String schedule = scheduleNode.getTextContent();
+//                String schedule = scheduleNode.getTextContent();
                 
             } catch (IOException | ParserConfigurationException | SAXException | URISyntaxException ex) {
                 ex.printStackTrace();
@@ -160,5 +165,20 @@ class PersistenceRetriever {
     
     public List<Workout> getWorkouts () {
         return workouts;
+    }
+    
+    public String getWorkoutColor (int id) {
+        if (workoutId == null) {
+            rewriteWorkoutId();
+        }
+        return id == workoutId? "aqua": "aliceblue;";
+    }
+    
+    public void rewriteWorkoutId () {
+        workoutId = WorkoutScoreManager.getInstance().getWorkoutId();
+        if (workoutId > maxWorkoutId) {
+            workoutId = 1;
+        }
+        System.out.println(workoutId);
     }
 }

@@ -4,6 +4,13 @@
     <head>
         <title>Workout Manager</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css"/>
+        <script type="text/javascript">
+            var pressed = '';
+            document.addEventListener('keydown', function (event) {
+//                pressed += event.key;
+                document.getElementById('onEnterForm').submit();
+            });
+        </script>
     </head>
     <body>
         <div align="center">
@@ -12,12 +19,12 @@
                 <h2 th:text="${exercise.name}">Exercise</h2>
                 <table>
                     <tr>
-                        <td th:each="repeat : ${repeats}" th:style="@{'width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;'}">
+                        <td th:each="repeat : ${exercise.repeats}" th:style="@{'width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;'}">
                             <span th:text="${repeat.need}"/>
                         </td>
                     </tr>
                     <tr>
-                        <td th:each="repeat : ${repeats}" th:style="@{'width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;'}">
+                        <td th:each="repeat : ${exercise.repeats}" th:style="@{'width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;'}">
                             <span th:text="${repeat.done}"/>
                         </td>
                     </tr>
@@ -25,15 +32,15 @@
             </div>
             <form action="#" th:action="@{'/workout/' + ${workout.id}}" th:object="${repeat}" method="post">
                 <div th:if="${repeat == null}">
-                    <button type="submit" name="action" th:value="@{next}" style="width: 120px; height: 30px;">
-                        <span th:text="${nextBtnName}"/>
+                    <button type="submit" name="action" th:value="@{proceedAction}" style="width: 120px; height: 30px;">
+                        <span th:text="${buttonName}"/>
                     </button>
                 </div>
                 <div th:if="${repeat != null}">
                     <table>
                         <tr>
                             <td th:each="i : ${#numbers.sequence(0, repeat.need)}">
-                                <button type="submit" name="action" th:value="${i}">
+                                <button type="submit" name="action" th:value="${i}" style="width: 50px; height: 40px; font-size: 30px;">
                                     <span th:text="${i}"/>
                                 </button>
                             </td>
@@ -41,6 +48,7 @@
                     </table>
                 </div>
             </form>
+            <form id="onEnterForm" th:action="@{'/workout/' + ${workout.id}}" method="post"></form>
             <table align="center">
                 <tr>
                     <td th:each="exercise : ${workout.exercises}" th:style="@{'width: 120px; height: 30px; border: solid 1px aquamarine; text-align: center;'}">
