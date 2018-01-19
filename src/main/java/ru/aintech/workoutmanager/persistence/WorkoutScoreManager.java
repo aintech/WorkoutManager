@@ -36,9 +36,16 @@ public class WorkoutScoreManager {
         StringBuilder workoutScore = new StringBuilder("\n");
         workoutScore.append(workout.getId()).append(" ").append(workout.getName()).append(" - ").append(DATE_FORMAT.format(new Date())).append("\n");
         for (Exercise exercise : workout.getExercises()) {
-            String score = exercise.getName() + " (" + exercise.getWeight() + " кг)" + " :";
-            for (Repeat rep : exercise.getRepeats()) {
-                score += " " + rep;
+            StringBuilder score = new StringBuilder();
+            score.append(exercise.getName());
+            if (exercise.getWeight() > 0) {
+                score.append(" (").append(exercise.getWeight()).append(" кг)");
+            }
+            if (exercise.getRepeats().length > 0) {
+                score.append(" :");
+                for (Repeat rep : exercise.getRepeats()) {
+                    score.append(" ").append(rep);
+                }
             }
             workoutScore.append(score).append("\n");
         }

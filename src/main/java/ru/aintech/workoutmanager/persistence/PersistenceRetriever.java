@@ -179,6 +179,5 @@ class PersistenceRetriever {
         if (workoutId > maxWorkoutId) {
             workoutId = 1;
         }
-        System.out.println(workoutId);
     }
 }

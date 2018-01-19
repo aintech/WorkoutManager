@@ -66,16 +66,21 @@ public class WorkoutController {
         if (action.equals("proceedAction")) {
             switch (state) {
                 case BEGIN:
+                    state = WorkoutState.TRAINING;
                     nextExerciseIndex = 0;
                     nextSetIndex = 0;
-                    state = WorkoutState.PROCESS;
                     break;
-                case PROCESS:
+                case TRAINING:
+                    state = WorkoutState.RECOVERY;
+                    break;
+                case RECOVERY:
+                    state = WorkoutState.TRAINING;
                     nextExerciseIndex++;
                     nextSetIndex = 0;
                     break;
             }
         } else if (action.matches("\\d+")) {
+            state = WorkoutState.RECOVERY;
             workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].setDone(Integer.parseInt(action));
             if (nextSetIndex < exercise.getRepeats().length-1) {
                 nextSetIndex++;
@@ -86,11 +91,12 @@ public class WorkoutController {
         } else if (action.equals("empty")) {//Подразумевается, что была нажата клавиша Enter
             switch (state) {
                 case BEGIN:
+                    state = WorkoutState.TRAINING;
                     nextExerciseIndex = 0;
                     nextSetIndex = 0;
-                    state = WorkoutState.PROCESS;
                     break;
-                case PROCESS:
+                case TRAINING:
+                    state = WorkoutState.RECOVERY;
                     Exercise exer = workout.getExercises()[nextExerciseIndex];
                     if (exer != null && exer.getRepeats() != null && exer.getRepeats().length > 0) {
                         workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].setDone(workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].getNeed());
@@ -102,19 +108,22 @@ public class WorkoutController {
                         nextExerciseIndex++;
                     }
                     break;
+                case RECOVERY:
+                    state = WorkoutState.TRAINING;
+                    break;
             }
         }
         
         boolean noRepeat = nextExerciseIndex < workout.getExercises().length && (workout.getExercises()[nextExerciseIndex].getRepeats() == null || workout.getExercises()[nextExerciseIndex].getRepeats().length == 0);
         
         if (noRepeat && nextExerciseIndex == workout.getExercises().length - 1) {
-            exercise = workout.getExercises()[nextExerciseIndex];
+            setupExercise();
             state = WorkoutState.FINISH;
         } else {
             if (nextExerciseIndex == workout.getExercises().length) {
                 state = WorkoutState.FINISH;
             } else {
-                exercise = workout.getExercises()[nextExerciseIndex];
+                setupExercise();
                 if (nextSetIndex < exercise.getRepeats().length) {
                     Repeat repeat = exercise.getRepeats()[nextSetIndex];
                     model.addAttribute("repeat", repeat);
@@ -126,5 +135,12 @@ public class WorkoutController {
         model.addAttribute("state", state);
         model.addAttribute("buttonName", state == WorkoutState.FINISH? "Finish Workout": "Next Exercise");
         return "workout";
+    }
+    
+    private void setupExercise () {
+        exercise = workout.getExercises()[nextExerciseIndex];
+        for (Exercise exer : workout.getExercises()) {
+            exer.setStyleClass(exer == exercise? "exerciseBlockChecked": "exerciseBlockNotChecked");
+        }
     }
 }

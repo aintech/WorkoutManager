@@ -19,6 +19,8 @@ public class Exercise {
     
     private final String external;
     
+    private transient String styleClass = "exerciseBlockNotChecked";
+    
     public Exercise (int id, MuscleGroup muscleGroup, String name, int weight, int[] repeats, String external) {
         this.id = id;
         this.muscleGroup = muscleGroup;
@@ -59,6 +61,14 @@ public class Exercise {
         int[] reps = new int[repeats.length];
         for (int i = 0; i < reps.length; i++) { reps[i] = repeats[i].getNeed(); }
         return new Exercise(id, muscleGroup, name, weight, reps, external);
+    }
+    
+    public void setStyleClass (String styleClass) {
+        this.styleClass = styleClass;
+    }
+    
+    public String getStyleClass () {
+        return styleClass;
     }
     
 //    @Override

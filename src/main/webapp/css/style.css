@@ -11,3 +11,30 @@ label.error {
 input.error {
     background-color: #ffcccc;
 }
+table td.exerciseBlockNotChecked {
+    width: 120px;
+    height: 30px;
+    border: solid 1px graytext;
+    background-color: aquamarine;
+    text-align: center;
+}
+table td.exerciseBlockChecked {
+    width: 120px;
+    height: 30px;
+    border: solid 1px graytext;
+    background-color: lightgoldenrodyellow;
+    text-align: center;
+}
+table td.exerciseBlockNotCheckedUnderline {
+    width: 120px;
+    height: 5px;
+    border: solid 1px graytext;
+    text-align: center;
+}
+table td.exerciseBlockCheckedUnderline {
+    width: 120px;
+    height: 5px;
+    border: solid 1px graytext;
+    background-color: lightgoldenrodyellow;
+    text-align: center;
+}
