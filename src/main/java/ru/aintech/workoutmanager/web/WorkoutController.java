@@ -125,6 +125,9 @@ public class WorkoutController {
             } else {
                 setupExercise();
                 if (nextSetIndex < exercise.getRepeats().length) {
+                    for (int i = 0; i < exercise.getRepeats().length; i++) {
+                        exercise.getRepeats()[i].setStyleClass(i == nextSetIndex? "setInProgress": i < nextSetIndex? "setDone": "setNotStarted");
+                    }
                     Repeat repeat = exercise.getRepeats()[nextSetIndex];
                     model.addAttribute("repeat", repeat);
                 }

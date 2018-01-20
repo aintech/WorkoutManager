@@ -8,6 +8,8 @@ public class Repeat {
     private int need;
     
     private int done;
+    
+    private String styleClass;
 
     public Repeat(int need) {
         this.need = need;
@@ -32,5 +34,13 @@ public class Repeat {
     @Override
     public String toString() {
         return "" + need + "/" + done;
+    }
+    
+    public void setStyleClass (String styleClass) {
+        this.styleClass = styleClass;
+    }
+    
+    public String getStyleClass () {
+        return styleClass;
     }
 }

@@ -28,7 +28,6 @@ table td.exerciseBlockChecked {
 table td.exerciseBlockNotCheckedUnderline {
     width: 120px;
     height: 5px;
-    border: solid 1px graytext;
     text-align: center;
 }
 table td.exerciseBlockCheckedUnderline {
@@ -37,4 +36,13 @@ table td.exerciseBlockCheckedUnderline {
     border: solid 1px graytext;
     background-color: lightgoldenrodyellow;
     text-align: center;
+}
+table td.setNotStarted {
+    width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;
+}
+table td.setInProgress {
+    width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;
+}
+table td.setDone {
+    width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;
 }
