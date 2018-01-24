@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.aintech.workoutmanager.persistence.Exercise;
-import ru.aintech.workoutmanager.persistence.IExerciseRepository;
+import ru.aintech.workoutmanager.persistence.ExerciseRepository;
 import ru.aintech.workoutmanager.persistence.MuscleGroup;
 
 /**
@@ -20,10 +20,10 @@ import ru.aintech.workoutmanager.persistence.MuscleGroup;
 @RequestMapping("/exercises")
 public class ExerciseController {
     
-    private final IExerciseRepository repo;
+    private final ExerciseRepository repo;
     
     @Autowired
-    public ExerciseController (IExerciseRepository repo) {
+    public ExerciseController (ExerciseRepository repo) {
         this.repo = repo;
     }
     

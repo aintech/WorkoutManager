@@ -11,12 +11,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceView;
 import ru.aintech.workoutmanager.persistence.Exercise;
 import ru.aintech.workoutmanager.persistence.ExerciseRepository;
-import ru.aintech.workoutmanager.persistence.IExerciseRepository;
-import ru.aintech.workoutmanager.persistence.IUserRepository;
-import ru.aintech.workoutmanager.persistence.IWorkoutRepository;
+import ru.aintech.workoutmanager.persistence.ExerciseRepositoryImpl;
+import ru.aintech.workoutmanager.persistence.UserRepository;
 import ru.aintech.workoutmanager.persistence.MuscleGroup;
 import ru.aintech.workoutmanager.persistence.User;
-import ru.aintech.workoutmanager.persistence.UserRepository;
+import ru.aintech.workoutmanager.persistence.WorkoutScheduleRepository;
 
 /**
  * @author Yaremchuk E.N. (aka Aintech)
@@ -25,7 +24,7 @@ public class ControllersTest {
 
     @Test
     public void homeController () throws Exception {
-        IWorkoutRepository repo = Mockito.mock(IWorkoutRepository.class);
+        WorkoutScheduleRepository repo = Mockito.mock(WorkoutScheduleRepository.class);
         HomeController controller = new HomeController(repo);
         MockMvc mock = MockMvcBuilders.standaloneSetup(controller).build();
         mock.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.view().name("home"));
@@ -48,8 +47,8 @@ public class ControllersTest {
     
     @Test
     public void exerciseControllerByBodyPart () throws Exception {
-        List<Exercise> backExercises = new ExerciseRepository().getExercises(MuscleGroup.BACK);
-        IExerciseRepository repo  = Mockito.mock(IExerciseRepository.class);
+        List<Exercise> backExercises = new ExerciseRepositoryImpl().getExercises(MuscleGroup.BACK);
+        ExerciseRepository repo  = Mockito.mock(ExerciseRepository.class);
         Mockito.when(repo.getExercises(MuscleGroup.BACK)).thenReturn(backExercises);
         
         ExerciseController controller = new ExerciseController(repo);
@@ -77,7 +76,7 @@ public class ControllersTest {
     
     @Test
     public void userController () throws Exception {
-        IUserRepository repo = Mockito.mock(IUserRepository.class);
+        UserRepository repo = Mockito.mock(UserRepository.class);
         UserController controller = new UserController(repo);
         MockMvc mock = MockMvcBuilders.standaloneSetup(controller).build();
         
@@ -86,7 +85,7 @@ public class ControllersTest {
     }
     
     public void userControllerRegistration () throws Exception {
-        IUserRepository repo = Mockito.mock(IUserRepository.class);
+        UserRepository repo = Mockito.mock(UserRepository.class);
         User unsaved = new User("man", "man@mail", "pass");
         User saved = new User("man", "man@mail", "pass");
         Mockito.when(repo.save(unsaved)).thenReturn(saved);

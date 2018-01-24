@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.aintech.workoutmanager.persistence.Exercise;
-import ru.aintech.workoutmanager.persistence.IWorkoutRepository;
 import ru.aintech.workoutmanager.persistence.Repeat;
 import ru.aintech.workoutmanager.persistence.Workout;
+import ru.aintech.workoutmanager.persistence.WorkoutRepository;
 import ru.aintech.workoutmanager.persistence.WorkoutScoreManager;
 
 /**
@@ -22,7 +22,7 @@ import ru.aintech.workoutmanager.persistence.WorkoutScoreManager;
 @RequestMapping("/workout")
 public class WorkoutController {
     
-    private final IWorkoutRepository repo;
+    private final WorkoutRepository repo;
     
     private Workout workout;
     
@@ -35,7 +35,7 @@ public class WorkoutController {
     private WorkoutState state;
     
     @Autowired
-    public WorkoutController(IWorkoutRepository repo) {
+    public WorkoutController(WorkoutRepository repo) {
         this.repo = repo;
     }
     
@@ -54,7 +54,7 @@ public class WorkoutController {
     @RequestMapping(value = "/{workoutId}", method = RequestMethod.POST)
     public String exerciseSwitch (@PathVariable("workoutId") Integer workoutId, @RequestParam(value = "action", defaultValue = "empty") String action, Model model) {
         if (state == WorkoutState.FINISH) {
-            WorkoutScoreManager.getInstance().persistWorkoutScore(workout);
+            new WorkoutScoreManager().persistWorkoutScore(workout);
             return "redirect:/";
         }
         

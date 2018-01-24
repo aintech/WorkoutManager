@@ -19,11 +19,11 @@ import org.xml.sax.SAXException;
  * @author Yaremchuk E.N. (aka Aintech)
  */
 
-class PersistenceRetriever {
+class PersistenceManager {
     
-    private static final PersistenceRetriever instance = new PersistenceRetriever();
+    private static final PersistenceManager instance = new PersistenceManager();
     
-    public static PersistenceRetriever getInstance() { return instance; }
+    public static PersistenceManager getInstance() { return instance; }
     
     private static final Map<MuscleGroup, List<Exercise>> exercises = new HashMap<>();
     
@@ -31,16 +31,15 @@ class PersistenceRetriever {
     
     private static final List<Workout> workouts = new ArrayList<>();
     
-    private static Integer maxWorkoutId = 0;
-    
-    private Integer workoutId;
+    private static final List<WorkoutSchedule> schedules = new ArrayList<>();
     
     static {
         if (exercises.isEmpty()) {
             
             Arrays.asList(MuscleGroup.values()).forEach(group -> exercises.put(group, new ArrayList<>()));
             
-            Map<Integer, Exercise> exercisesById = new HashMap<>();
+            Map<Integer, Exercise> exerciseById = new HashMap<>();
+            Map<Integer, Workout> workoutById = new HashMap<>();
             
             try {
                 File persist = new File(Thread.currentThread().getContextClassLoader().getResource("data/Persistence.xml").toURI());
@@ -49,15 +48,15 @@ class PersistenceRetriever {
                 
                 Node exercisesNode = null;
                 Node workoutsNode = null;
-                Node scheduleNode = null;
+                Node schedulesNode = null;
                 
                 for (int i = 0; i < rootNode.getChildNodes().getLength(); i++) {
                     if (rootNode.getChildNodes().item(i).getNodeName().equals("exercises")) {
                         exercisesNode = rootNode.getChildNodes().item(i);
                     } else if (rootNode.getChildNodes().item(i).getNodeName().equals("workouts")) {
                         workoutsNode = rootNode.getChildNodes().item(i);
-                    } else if (rootNode.getChildNodes().item(i).getNodeName().equals("schedule")) {
-                        scheduleNode = rootNode.getChildNodes().item(i);
+                    } else if (rootNode.getChildNodes().item(i).getNodeName().equals("schedules")) {
+                        schedulesNode = rootNode.getChildNodes().item(i);
                     }
                 }
                 
@@ -104,7 +103,7 @@ class PersistenceRetriever {
                         exercises.get(group).add(exercise);
                     }
                     allExercises.add(exercise);
-                    exercisesById.put(exercise.getId(), exercise);
+                    exerciseById.put(exercise.getId(), exercise);
                 }
                 
                 for (int i = 0; i < workoutsNode.getChildNodes().getLength(); i++) {
@@ -114,6 +113,7 @@ class PersistenceRetriever {
                     String name = null;
                     int[] exerciseIds = null;
                     Exercise[] exercises = null;
+                    Workout workout;
 
                     Node workoutNode = workoutsNode.getChildNodes().item(i);
                     if (workoutNode.getNodeType() == Node.TEXT_NODE) {
@@ -135,25 +135,62 @@ class PersistenceRetriever {
                                     exerciseIds = new int[vals.length];
                                     for (int a = 0; a < vals.length; a++) { exerciseIds[a] = Integer.parseInt(vals[a]); }
                                     exercises = new Exercise[vals.length];
-                                    for (int a = 0; a < vals.length; a++) { exercises[a] = exercisesById.get(exerciseIds[a]).getCopy(); }
+                                    for (int a = 0; a < vals.length; a++) { exercises[a] = exerciseById.get(exerciseIds[a]).getCopy(); }
                                     break;
                             }
                         }
                     }
                     
-                    workouts.add(new Workout(id, name, exercises));
-                    maxWorkoutId = Math.max(id, maxWorkoutId);
+                    workout = new Workout(id, name, exercises);
+                    workoutById.put(id, workout);
+                    workouts.add(workout);
                 }
                 
-//                String schedule = scheduleNode.getTextContent();
+                for (int i = 0; i < schedulesNode.getChildNodes().getLength(); i++) {
+                    
+                    Node node = null;
+                    int id = 0;
+                    String name = null;
+                    int[] workoutIds = null;
+                    Workout[] workouts = null;
+                    
+                    Node scheduleNode = schedulesNode.getChildNodes().item(i);
+                    if (scheduleNode.getNodeType() == Node.TEXT_NODE) {
+                        continue;
+                    }
+                    
+                    for (int j = 0; j < scheduleNode.getChildNodes().getLength(); j++) {
+                        node = scheduleNode.getChildNodes().item(j);
+                        if (node == null || node.getNodeName() == null) {
+                            continue;
+                        }
+                        String nodeVal = node.getTextContent() == null || node.getTextContent().isEmpty()? null: node.getTextContent();
+                        if (nodeVal != null) {
+                            switch (node.getNodeName()) {
+                                case "id": id = Integer.parseInt(nodeVal); break;
+                                case "name": name = nodeVal; break;
+                                case "workouts":
+                                    String[] vals = nodeVal.split(",");
+                                    workoutIds = new int[vals.length];
+                                    for (int a = 0; a < vals.length; a++) { workoutIds[a] = Integer.parseInt(vals[a]); }
+                                    workouts = new Workout[vals.length];
+                                    for (int a = 0; a < vals.length; a++) { workouts[a] = workoutById.get(workoutIds[a]).getCopy(); }
+                            }
+                        }
+                    }
+                    
+                    schedules.add(new WorkoutSchedule(id, name, workouts));
+                }
                 
+                new WorkoutScoreManager().defineWorkoutStatuses();
+
             } catch (IOException | ParserConfigurationException | SAXException | URISyntaxException ex) {
                 ex.printStackTrace();
             }
         }
     }
     
-    private PersistenceRetriever () {}
+    private PersistenceManager () {}
 
     public Map<MuscleGroup, List<Exercise>> getExercises() {
         return exercises;
@@ -166,18 +203,8 @@ class PersistenceRetriever {
     public List<Workout> getWorkouts () {
         return workouts;
     }
-    
-    public String getWorkoutColor (int id) {
-        if (workoutId == null) {
-            rewriteWorkoutId();
-        }
-        return id == workoutId? "aqua": "aliceblue;";
-    }
-    
-    public void rewriteWorkoutId () {
-        workoutId = WorkoutScoreManager.getInstance().getWorkoutId();
-        if (workoutId > maxWorkoutId) {
-            workoutId = 1;
-        }
+
+    public List<WorkoutSchedule> getSchedules() {
+        return schedules;
     }
 }

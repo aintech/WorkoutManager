@@ -1,16 +1,28 @@
-span.error {
-    color: red;
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
 }
-div.errors {
-    background-color: #ffcccc;
-    border: 2px solid red;
+#container {
+   min-height:100%;
+   position:relative;
 }
-label.error {
-    color: red;
+#header {
+   padding:10px;
 }
-input.error {
-    background-color: #ffcccc;
+#body {
+   padding:10px;
+/*   padding-bottom:60px;    Height of the footer */
 }
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+/*   height:60px;    Height of the footer */
+}
+
+
 table td.exerciseBlockNotChecked {
     width: 120px;
     height: 30px;
@@ -37,6 +49,7 @@ table td.exerciseBlockCheckedUnderline {
     background-color: lightgoldenrodyellow;
     text-align: center;
 }
+
 table td.setNotStarted {
     width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;
 }
@@ -45,4 +58,34 @@ table td.setInProgress {
 }
 table td.setDone {
     width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;
+}
+
+h2.scheduleMain {
+    background: 0 0;
+    letter-spacing: .1875rem;
+    line-height: 1.4285;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 24px;
+}
+table td.workoutMain {
+    background: 0 0;
+    border: 2px solid #999;
+    letter-spacing: .1875rem;
+    line-height: 1.4285;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 20px;
+    height: 150px;
+    width: 250px;
+}
+table td.workoutMain:hover {
+    border-color: #000;
+}
+table td.workoutMain a {
+    text-decoration: none;
+    color: #555;
+}
+table td.workoutMain a:hover {
+    color: #000;
 }

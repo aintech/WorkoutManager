@@ -3,12 +3,9 @@ package ru.aintech.workoutmanager.persistence;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,11 +21,9 @@ public class WorkoutScoreManager {
     
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
     
-    private static final WorkoutScoreManager instance = new WorkoutScoreManager();
+    private static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat("dd MMM [HH:mm]");
     
-    public static WorkoutScoreManager getInstance () { return instance; }
-    
-    private WorkoutScoreManager () {
+    public WorkoutScoreManager () {
         scoreFile = new File (new File(Thread.currentThread().getContextClassLoader().getResource("").getFile()).getParentFile().getParentFile(), "src\\main\\resources\\data\\WorkoutScore.txt");
     }
     
@@ -56,29 +51,56 @@ public class WorkoutScoreManager {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        PersistenceRetriever.getInstance().rewriteWorkoutId();
+        defineWorkoutStatuses();
     }
     
-    public int getWorkoutId () {
+    public void defineWorkoutStatuses () {
+        int nextId = -1;
+        Workout[] workouts = PersistenceManager.getInstance().getSchedules().get(0).getWorkouts();
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(scoreFile), "UTF-8"));
             List<String> lines = new ArrayList<>();
-            String line = null;
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(scoreFile), "UTF-8"));
+            String line;
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
             
             for (int i = lines.size()-1; i >= 0; i--) {
                 if (lines.get(i) != null && !lines.get(i).isEmpty()) {
+                    //Line which starts with numbers - is workout info line (id, name, time)
                     if (lines.get(i).matches("\\d+.*")) {
-                        String value = lines.get(i).substring(0, lines.get(i).indexOf(" "));
-                        return Integer.parseInt(value) + 1;
+                        int id = Integer.parseInt(lines.get(i).substring(0, lines.get(i).indexOf(" ")).trim());
+                        String date = lines.get(i).substring(lines.get(i).indexOf(" - "), lines.get(i).length()).replace(" - ", "");
+                        //If next workout id yet not found
+                        if (nextId == -1) {
+                            if (id == workouts[workouts.length - 1].getId()) {
+                                nextId = workouts[0].getId();
+                            } else {
+                                for (int w = 0; w < workouts.length; w++) {
+                                    if (workouts[w].getId() == id) {
+                                        nextId = workouts[w + 1].getId();
+                                    }
+                                }
+                            }
+                        }
+                        
+                        for (Workout workout : workouts) {
+                             if (workout.getId() == id) {
+                                 workout.setLastPerformTime(SHORT_DATE_FORMAT.format(DATE_FORMAT.parse(date)));
+                             }
+                        }
+                        
+                        break;
                     }
                 }
             }
-        } catch (IOException  ex) {
+        } catch (Exception  ex) {
             ex.printStackTrace();
         }
-        return 1;
+        
+        for (Workout workout : workouts) {
+            workout.setNextToPerform(workout.getId() == nextId);
+        }
     }
 }

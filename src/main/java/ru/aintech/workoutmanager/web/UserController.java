@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-import ru.aintech.workoutmanager.persistence.IUserRepository;
 import ru.aintech.workoutmanager.persistence.User;
+import ru.aintech.workoutmanager.persistence.UserRepository;
 
 /**
  * @author Yaremchuk E.N. (aka Aintech)
@@ -21,10 +20,10 @@ import ru.aintech.workoutmanager.persistence.User;
 @RequestMapping("/user")
 public class UserController {
     
-    IUserRepository repo;
+    private final UserRepository repo;
     
     @Autowired
-    public UserController (IUserRepository repo) {
+    public UserController (UserRepository repo) {
         this.repo = repo;
     }
     

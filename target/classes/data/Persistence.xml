@@ -178,5 +178,12 @@
             <exercises>17,18,17,18</exercises>
         </workout>
     </workouts>
-    <schedule>BACK, SHOULDERS, CARDIO, LEGS, ARMS, PUSH-UPS</schedule>
+    <schedules>
+        <schedule>
+            <id>1</id>
+            <name>Основная тренировка</name>
+            <workouts>1,4,6,5,2,3</workouts>
+            <!--BACK, LEGS, PUSH_UPS, ARMS, SHOULDERS, CARDIO-->
+        </schedule>
+    </schedules>
 </root>

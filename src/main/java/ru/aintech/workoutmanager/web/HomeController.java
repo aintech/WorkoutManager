@@ -5,8 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.aintech.workoutmanager.persistence.IWorkoutRepository;
-import ru.aintech.workoutmanager.persistence.WorkoutRepository;
+import ru.aintech.workoutmanager.persistence.WorkoutScheduleRepository;
 
 /**
  * @author Yaremchuk E.N. (aka Aintech)
@@ -17,15 +16,16 @@ import ru.aintech.workoutmanager.persistence.WorkoutRepository;
 public class HomeController {
     
     @Autowired
-    private IWorkoutRepository repo;
+    private final WorkoutScheduleRepository repo;
     
-    public HomeController (IWorkoutRepository repo) {
+    public HomeController (WorkoutScheduleRepository repo) {
         this.repo = repo;
     }
     
     @RequestMapping(method = RequestMethod.GET)
     public String home (Model model) {
-        model.addAttribute("workouts", repo.getAll());
+        model.addAttribute("schedule", repo.getSchedule());
+//        model.addAttribute("workouts", repo.getAll());
         return "home";
     }
 }
