@@ -66,35 +66,43 @@ public class WorkoutScoreManager {
                 lines.add(line);
             }
             
+            List<String> generalInfo = new ArrayList<>();
+            
             for (int i = lines.size()-1; i >= 0; i--) {
                 if (lines.get(i) != null && !lines.get(i).isEmpty()) {
                     //Line which starts with numbers - is workout info line (id, name, time)
                     if (lines.get(i).matches("\\d+.*")) {
-                        int id = Integer.parseInt(lines.get(i).substring(0, lines.get(i).indexOf(" ")).trim());
-                        String date = lines.get(i).substring(lines.get(i).indexOf(" - "), lines.get(i).length()).replace(" - ", "");
-                        //If next workout id yet not found
-                        if (nextId == -1) {
-                            if (id == workouts[workouts.length - 1].getId()) {
-                                nextId = workouts[0].getId();
-                            } else {
-                                for (int w = 0; w < workouts.length; w++) {
-                                    if (workouts[w].getId() == id) {
-                                        nextId = workouts[w + 1].getId();
-                                    }
-                                }
-                            }
-                        }
-                        
-                        for (Workout workout : workouts) {
-                             if (workout.getId() == id) {
-                                 workout.setLastPerformTime(SHORT_DATE_FORMAT.format(DATE_FORMAT.parse(date)));
-                             }
-                        }
-                        
-                        break;
+                        generalInfo.add(lines.get(i));
                     }
+//                    if (lines.get(i).matches("\\d+.*")) {
+//                        int id = Integer.parseInt(lines.get(i).substring(0, lines.get(i).indexOf(" ")).trim());
+//                        String date = lines.get(i).substring(lines.get(i).indexOf(" - "), lines.get(i).length()).replace(" - ", "");
+//                        //If next workout id yet not found
+//                        if (nextId == -1) {
+//                            if (id == workouts[workouts.length - 1].getId()) {
+//                                nextId = workouts[0].getId();
+//                            } else {
+//                                for (int w = 0; w < workouts.length; w++) {
+//                                    if (workouts[w].getId() == id) {
+//                                        nextId = workouts[w + 1].getId();
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        
+//                        for (Workout workout : workouts) {
+//                             if (workout.getId() == id) {
+//                                 workout.setLastPerformTime(SHORT_DATE_FORMAT.format(DATE_FORMAT.parse(date)));
+//                             }
+//                        }
+//                        
+//                        break;
+//                    }
                 }
             }
+            
+            int lastPerformedId = Integer.parseInt(generalInfo.get(generalInfo.size()-1).substring(0, generalInfo.get(generalInfo.size()-1).indexOf(" ")).trim());
+            
         } catch (Exception  ex) {
             ex.printStackTrace();
         }

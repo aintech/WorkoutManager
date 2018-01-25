@@ -33,7 +33,7 @@ public class Repeat {
 
     @Override
     public String toString() {
-        return "" + need + "/" + done;
+        return "" + done + "|" + need;
     }
     
     public void setStyleClass (String styleClass) {
