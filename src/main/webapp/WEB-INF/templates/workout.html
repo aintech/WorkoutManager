@@ -76,18 +76,22 @@
                             </table>
                         </div>
                     </div>
-                    <div th:if="${state.name == 'RECOVERY'}">
+                    <div th:if="${state.name == 'RECOVERY_SET' or state.name == 'RECOVERY_EXERCISE'}">
                         <h2>Recovery Time</h2>
                         <div id="timer" style="font-size: 40px;"></div>
+                        <div th:if="${}"
                         <script type="text/javascript">
                             window.onload = function () {
-                                fireTimer();
+                                fireTimer(30);
                             };
                         </script>
                     </div>
                 </form>
                 <form id="onEnterForm" th:action="@{'/workout/' + ${workout.id}}" method="post"></form>
             </div>
+            <audio id="signal">
+                <source src="../../audio/signal.mp3" type="audio/mpeg"/>
+            </audio>
             <div id="footer">
                 <hr />
                 <h3 th:text="${'work is just another type of entertainment'}">work is just another type of entertainment</h3>

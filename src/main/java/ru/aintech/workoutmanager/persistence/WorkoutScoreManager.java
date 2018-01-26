@@ -9,8 +9,11 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Yaremchuk E.N. (aka Aintech)
@@ -55,7 +58,6 @@ public class WorkoutScoreManager {
     }
     
     public void defineWorkoutStatuses () {
-        int nextId = -1;
         Workout[] workouts = PersistenceManager.getInstance().getSchedules().get(0).getWorkouts();
         try {
             List<String> lines = new ArrayList<>();
@@ -74,41 +76,34 @@ public class WorkoutScoreManager {
                     if (lines.get(i).matches("\\d+.*")) {
                         generalInfo.add(lines.get(i));
                     }
-//                    if (lines.get(i).matches("\\d+.*")) {
-//                        int id = Integer.parseInt(lines.get(i).substring(0, lines.get(i).indexOf(" ")).trim());
-//                        String date = lines.get(i).substring(lines.get(i).indexOf(" - "), lines.get(i).length()).replace(" - ", "");
-//                        //If next workout id yet not found
-//                        if (nextId == -1) {
-//                            if (id == workouts[workouts.length - 1].getId()) {
-//                                nextId = workouts[0].getId();
-//                            } else {
-//                                for (int w = 0; w < workouts.length; w++) {
-//                                    if (workouts[w].getId() == id) {
-//                                        nextId = workouts[w + 1].getId();
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        
-//                        for (Workout workout : workouts) {
-//                             if (workout.getId() == id) {
-//                                 workout.setLastPerformTime(SHORT_DATE_FORMAT.format(DATE_FORMAT.parse(date)));
-//                             }
-//                        }
-//                        
-//                        break;
-//                    }
                 }
             }
             
-            int lastPerformedId = Integer.parseInt(generalInfo.get(generalInfo.size()-1).substring(0, generalInfo.get(generalInfo.size()-1).indexOf(" ")).trim());
+            int lastPerformedId = Integer.parseInt(generalInfo.get(0).substring(0, generalInfo.get(0).indexOf(" ")).trim());
+            int nextId = -1;
+            if (lastPerformedId == workouts[workouts.length - 1].getId()) {
+                nextId = workouts[0].getId();
+            } else {
+                for (int w = 0; w < workouts.length; w++) {
+                    if (workouts[w].getId() == lastPerformedId) {
+                        nextId = workouts[w + 1].getId();
+                    }
+                }
+            }
             
+            for (Workout workout : workouts) { workout.setNextToPerform(workout.getId() == nextId); }
+            
+            Map<Integer, Workout> workoutsById = new HashMap<>();
+            Arrays.asList(workouts).forEach(workout -> workoutsById.put(workout.getId(), workout));
+            Integer id;
+            Date date;
+            for (String info : generalInfo) {
+                id = Integer.parseInt(info.substring(0, info.indexOf(" ")).trim());
+                date = DATE_FORMAT.parse(info.substring(info.indexOf(" - "), info.length()).replace(" - ", ""));
+                workoutsById.get(id).setLastPerformTime(SHORT_DATE_FORMAT.format(date));
+            }
         } catch (Exception  ex) {
             ex.printStackTrace();
-        }
-        
-        for (Workout workout : workouts) {
-            workout.setNextToPerform(workout.getId() == nextId);
         }
     }
 }

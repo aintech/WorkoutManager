@@ -6,10 +6,10 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-function fireTimer () {
+function fireTimer (secs) {
     var start = new Date();
     var end = new Date();
-    end.setTime(start.getTime() + 30000);
+    end.setTime(start.getTime() + (secs * 1000));
 
     var seconds = Math.floor((end - start) / 1000);
     var minutes = Math.floor(seconds / 60);
@@ -46,6 +46,12 @@ function setTimerExterior (hours, minutes, seconds) {
 }
 
 function stepOffTimeout (timerId) {
-    document.getElementById('onEnterForm').submit();
+//    document.getElementById('onEnterForm').submit();
     clearInterval(timerId);
+    playSignal();
+}
+
+function playSignal () {
+    var audio = document.getElementById('signal');
+    audio.play();
 }
