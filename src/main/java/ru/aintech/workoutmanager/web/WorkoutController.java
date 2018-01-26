@@ -80,11 +80,12 @@ public class WorkoutController {
                     break;
             }
         } else if (action.matches("\\d+")) {
-            state = WorkoutState.RECOVERY_SET;
             workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].setDone(Integer.parseInt(action));
             if (nextSetIndex < exercise.getRepeats().length-1) {
+                state = WorkoutState.RECOVERY_SET;
                 nextSetIndex++;
             } else {
+                state = WorkoutState.RECOVERY_EXERCISE;
                 nextSetIndex = 0;
                 nextExerciseIndex++;
             }
@@ -96,19 +97,21 @@ public class WorkoutController {
                     nextSetIndex = 0;
                     break;
                 case TRAINING:
-                    state = WorkoutState.RECOVERY_SET;
                     Exercise exer = workout.getExercises()[nextExerciseIndex];
                     if (exer != null && exer.getRepeats() != null && exer.getRepeats().length > 0) {
                         workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].setDone(workout.getExercises()[nextExerciseIndex].getRepeats()[nextSetIndex].getNeed());
                     }
                     if (nextSetIndex < exercise.getRepeats().length-1) {
+                        state = WorkoutState.RECOVERY_SET;
                         nextSetIndex++;
                     } else {
+                        state = WorkoutState.RECOVERY_EXERCISE;
                         nextSetIndex = 0;
                         nextExerciseIndex++;
                     }
                     break;
                 case RECOVERY_SET:
+                case RECOVERY_EXERCISE:
                     state = WorkoutState.TRAINING;
                     break;
             }

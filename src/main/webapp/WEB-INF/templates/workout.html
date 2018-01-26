@@ -40,13 +40,11 @@
                             <td>
                                 <table>
                                     <tr>
-                                        <!--<td th:style="@{'width: 150px; height: 50px; border: solid 1px aquamarine; text-align: left;'}">Sets</td>-->
                                         <td th:each="repeat : ${exercise.repeats}" th:class="${repeat.styleClass}">
                                             <span th:text="${repeat.need}"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <!--<td th:style="@{'width: 150px; height: 50px; border: solid 1px aquamarine; text-align: left;'}">Accomplished</td>-->
                                         <td th:each="repeat : ${exercise.repeats}" th:class="${repeat.styleClass}">
                                             <span th:text="${repeat.done}"/>
                                         </td>
@@ -79,12 +77,20 @@
                     <div th:if="${state.name == 'RECOVERY_SET' or state.name == 'RECOVERY_EXERCISE'}">
                         <h2>Recovery Time</h2>
                         <div id="timer" style="font-size: 40px;"></div>
-                        <div th:if="${}"
-                        <script type="text/javascript">
-                            window.onload = function () {
-                                fireTimer(30);
-                            };
-                        </script>
+                        <div th:if="${state.name == 'RECOVERY_SET'}">
+                            <script type="text/javascript">
+                                window.onload = function () {
+                                    fireTimer(30);
+                                };
+                            </script>
+                        </div>
+                        <div th:if="${state.name == 'RECOVERY_EXERCISE'}">
+                            <script type="text/javascript">
+                                window.onload = function () {
+                                    fireTimer(240);
+                                };
+                            </script>
+                        </div>
                     </div>
                 </form>
                 <form id="onEnterForm" th:action="@{'/workout/' + ${workout.id}}" method="post"></form>

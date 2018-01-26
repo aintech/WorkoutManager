@@ -7,33 +7,23 @@ document.addEventListener('keydown', function (event) {
 });
 
 function fireTimer (secs) {
-    var start = new Date();
-    var end = new Date();
-    end.setTime(start.getTime() + (secs * 1000));
-
-    var seconds = Math.floor((end - start) / 1000);
-    var minutes = Math.floor(seconds / 60);
-    var hours = Math.floor(minutes / 60);
+    var initial = secs;
+    
+    var seconds = Math.floor(initial % 60);
+    var minutes = Math.floor((initial / 60) % 60);
+    var hours = Math.floor((initial / 3600) % 60);
 
     setTimerExterior(hours, minutes, seconds);
 
     function tick () {
-        if (seconds === 0) {
-            if (minutes === 0) {
-                if (hours === 0) {
-                    stepOffTimeout(timerId);
-                } else {
-                    hours--;
-                    minutes = 59;
-                    seconds = 59;
-                }
-            } else {
-                minutes--;
-                seconds = 59;
-            }
-        } else {
-            seconds--;
+        initial--;
+        if (initial <= 0) {
+            stepOffTimeout(timerId);
         }
+        seconds = Math.floor(initial % 60);
+        minutes = Math.floor((initial / 60) % 60);
+        hours = Math.floor((initial / 3600) % 60);
+        
         setTimerExterior(hours, minutes, seconds);
     }
 
@@ -42,6 +32,7 @@ function fireTimer (secs) {
 
 function setTimerExterior (hours, minutes, seconds) {
     var timer = document.getElementById('timer');
+    
     timer.innerHTML = (10 > hours ? "0" : "") + hours + ":" + (10 > minutes ? "0" : "") + minutes + ":" + (10 > seconds ? "0" : "") + seconds;
 }
 
@@ -49,6 +40,7 @@ function stepOffTimeout (timerId) {
 //    document.getElementById('onEnterForm').submit();
     clearInterval(timerId);
     playSignal();
+    setTimerExterior(0, 0, 0);
 }
 
 function playSignal () {
