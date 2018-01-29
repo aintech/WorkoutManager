@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Login Form</title>
+        <link rel="stylesheet" type="text/css" href="../../resources/css/style.css"/>
+    </head>
+    <body>
+        <div align="center" id="container">
+            <div id="header">
+                <div style="background-color: whitesmoke;">
+                    <hr />
+                    <h1>Workout Manager</h1>
+                    <hr />
+                </div>
+            </div>
+            <div id="body">
+                <form name="f" th:action="@{/login}" method="POST">
+                    <table>
+                        <tr>
+                            <td>Username: </td>
+                            <td>
+                                <input type="text" name="username" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Password: </td>
+                            <td>
+                                <input type="password" name="password" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Remember me:</td>
+                            <td>
+                                <input name="remember-me" type="checkbox"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input name="Submit" type="submit" value="Log in"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div id="footer">
+                <hr />
+                <h3 th:text="${'work is just another type of entertainment'}">work is just another type of entertainment</h3>
+                <hr />
+            </div>
+        </div>
+    </body>
+</html>

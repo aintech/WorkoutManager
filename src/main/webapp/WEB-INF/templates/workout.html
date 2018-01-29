@@ -3,8 +3,8 @@
       xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Workout Manager</title>
-        <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-        <script type="text/javascript" src="../../javascript/scripts.js"/>
+        <link rel="stylesheet" type="text/css" href="../../resources/css/style.css"/>
+        <script type="text/javascript" src="../../resources/javascript/scripts.js"/>
     </head>
     <body>
         <div align="center" id="container">
@@ -96,7 +96,7 @@
                 <form id="onEnterForm" th:action="@{'/workout/' + ${workout.id}}" method="post"></form>
             </div>
             <audio id="signal">
-                <source src="../../audio/signal.mp3" type="audio/mpeg"/>
+                <source src="../../resources/audio/signal.mp3" type="audio/mpeg"/>
             </audio>
             <div id="footer">
                 <hr />

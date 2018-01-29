@@ -72,7 +72,7 @@
             <artifactId>thymeleaf-spring4</artifactId>
         </dependency>
         
-<!--        <dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-        </dependency>-->
+        </dependency>
     </dependencies>
     
     <build>

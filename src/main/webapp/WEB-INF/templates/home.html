@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Workout Manager</title>
-        <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="../../resources/css/style.css"/>
     </head>
     <body>
         <div align="center" id="container">
@@ -12,6 +12,7 @@
                     <hr />
                     <h1 th:text="@{'Workout Manager'}">Workout Manager</h1>
                     <hr />
+                    <a th:href="@{/logout}">Logout</a>
                 </div>
             </div>
             <div id="body">

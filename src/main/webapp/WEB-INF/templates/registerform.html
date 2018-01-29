@@ -3,11 +3,11 @@
       xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Registration Form</title>
-        <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="../../resources/css/style.css"/>
     </head>
     <body>
         <div align="center">
-            <img src="../../images/header_image.jpg" style="height: 100px; width: auto;" />
+            <img src="../../resources/images/header_image.jpg" style="height: 100px; width: auto;" />
             <h1>Register</h1>
             <form method="POST" th:object="${user}" enctype="multipart/form-data">
                 <div class="errors" th:if="${#fields.hasErrors('*')}">
