@@ -1,0 +1,1 @@
+insert into _user values(1, 'admin', 'admin');

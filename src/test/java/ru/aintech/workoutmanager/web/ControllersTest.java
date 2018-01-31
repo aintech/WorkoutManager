@@ -22,14 +22,14 @@ import ru.aintech.workoutmanager.persistence.WorkoutScheduleRepository;
  */
 public class ControllersTest {
 
-    @Test
-    public void homeController () throws Exception {
-        WorkoutScheduleRepository repo = Mockito.mock(WorkoutScheduleRepository.class);
-        HomeController controller = new HomeController(repo);
-        MockMvc mock = MockMvcBuilders.standaloneSetup(controller).build();
-        mock.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.view().name("home"));
-    }
-    
+//    @Test
+//    public void homeController () throws Exception {
+//        WorkoutScheduleRepository repo = Mockito.mock(WorkoutScheduleRepository.class);
+//        HomeController controller = new HomeController(repo);
+//        MockMvc mock = MockMvcBuilders.standaloneSetup(controller).build();
+//        mock.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.view().name("home"));
+//    }
+//    
 //    @Test
 //    public void exerciseController () throws Exception {
 //        List<Exercise> exercises = new ExerciseRepository().getExercises(MuscleGroup.ARMS);
@@ -84,19 +84,19 @@ public class ControllersTest {
                 .andExpect(MockMvcResultMatchers.view().name("registerform"));
     }
     
-    public void userControllerRegistration () throws Exception {
-        UserRepository repo = Mockito.mock(UserRepository.class);
-        User unsaved = new User("man", "man@mail", "pass");
-        User saved = new User("man", "man@mail", "pass");
-        Mockito.when(repo.save(unsaved)).thenReturn(saved);
-        
-        UserController controller = new UserController(repo);
-        MockMvc mock = MockMvcBuilders.standaloneSetup(controller).build();
-        mock.perform(MockMvcRequestBuilders.post("/user/register")
-                .param("username", "man")
-                .param("email", "man@mail")
-                .param("password", "pass"))
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/man"));
-        Mockito.verify(repo, Mockito.atLeastOnce()).save(unsaved);
-    }
+//    public void userControllerRegistration () throws Exception {
+//        UserRepository repo = Mockito.mock(UserRepository.class);
+//        User unsaved = new User("man", "man@mail", "pass");
+//        User saved = new User("man", "man@mail", "pass");
+//        Mockito.when(repo.save(unsaved)).thenReturn(saved);
+//        
+//        UserController controller = new UserController(repo);
+//        MockMvc mock = MockMvcBuilders.standaloneSetup(controller).build();
+//        mock.perform(MockMvcRequestBuilders.post("/user/register")
+//                .param("username", "man")
+//                .param("email", "man@mail")
+//                .param("password", "pass"))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/man"));
+//        Mockito.verify(repo, Mockito.atLeastOnce()).save(unsaved);
+//    }
 }

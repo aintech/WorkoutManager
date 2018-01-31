@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <title>Workout Manager</title>
         <link rel="stylesheet" type="text/css" href="../../resources/css/style.css"/>
@@ -12,6 +13,9 @@
                     <hr />
                     <h1 th:text="@{'Workout Manager'}">Workout Manager</h1>
                     <hr />
+                    <div sec:authorize="isAuthenticated()">
+                        Hello <span sec:authentication="name">Someone</span>
+                    </div>
                     <a th:href="@{/logout}">Logout</a>
                 </div>
             </div>

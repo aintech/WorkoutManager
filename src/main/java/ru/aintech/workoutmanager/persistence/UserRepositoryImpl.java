@@ -1,35 +1,42 @@
 package ru.aintech.workoutmanager.persistence;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.springframework.stereotype.Component;
+import java.io.Serializable;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Yaremchuk E.N. (aka Aintech)
  */
 
-@Component
+@Primary
+@Repository
+@Transactional
 public class UserRepositoryImpl implements UserRepository {
     
-//    private static final List<User> users = new ArrayList<>();
+    private final SessionFactory sessionFactory;
     
-    private static final Map<String, User> users = new HashMap<>();
+    @Autowired
+    public UserRepositoryImpl (SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
     
-    static {
-        if (users.isEmpty()) {
-            users.put("manny", new User("manny", "manny@email", "pass"));
-        }
+    private Session getCurrentSession () {
+        return sessionFactory.getCurrentSession();
     }
     
     @Override
     public User getUser(String username) {
-        return users.get(username);
-//        return users.stream().filter(user -> user.getUsername().toLowerCase().equals(username.toLowerCase())).collect(Collectors.toList()).get(0);
+        return (User) getCurrentSession().createCriteria(User.class).add(Restrictions.eq("username", username)).list().get(0);
     }
 
     @Override
     public User save(User user) {
-        users.put(user.getUsername(), user);
-        return users.get(user.getUsername());
+        Serializable id = getCurrentSession().save(user);
+        return new User((Integer) id, user.getUsername(), user.getPassword());
     }
 }

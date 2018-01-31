@@ -1,34 +1,53 @@
 package ru.aintech.workoutmanager.persistence;
 
-import java.util.Objects;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * @author Yaremchuk E.N. (aka Aintech)
  */
-public class User {
+
+@Entity(name = "_user")
+public class User implements Serializable {
+    
+    @Id
+    @Column(name = "_id")
+    private int id;
     
     @NotNull
     @Size(min = 5, max = 16, message = "{username.size}")
+    @Column(name = "_username")
     private String username;
     
     @NotNull
-    @Size(min = 5, max = 24, message = "{email.size}")
-    private String email;
-    
-    @NotNull
     @Size(min = 5, max = 24, message = "{password.size}")
+    @Column(name = "_password")
     private String password;
 
     public User () {}
     
-    public User(String username, String email, String password) {
+    public User(String username, String password) {
         this.username = username;
-        this.email = email;
         this.password = password;
     }
 
+    public User(int id, String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getUsername() {
         return username;
     }
@@ -36,15 +55,7 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    
     public String getPassword() {
         return password;
     }
@@ -52,14 +63,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.username);
+        int hash = 7;
+        hash = 67 * hash + this.id;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -72,7 +83,7 @@ public class User {
             return false;
         }
         final User other = (User) obj;
-        if (!Objects.equals(this.username, other.username)) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
