@@ -89,3 +89,11 @@ table td.workoutMain a {
 table td.workoutMain a:hover {
     color: #000;
 }
+
+table td.exercisePart {
+    border: 1px solid aquamarine;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    font-size: 60px;
+}

@@ -29,7 +29,7 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET)
     public String home (Model model) {
         model.addAttribute("schedule", repo.getSchedule());
-        System.out.println(userRepo.getUser("admin").getId());
+//        System.out.println(userRepo.getUser("admin").getId());
         return "home";
     }
 }

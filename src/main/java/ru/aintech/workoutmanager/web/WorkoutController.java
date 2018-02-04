@@ -12,6 +12,7 @@ import ru.aintech.workoutmanager.persistence.Repeat;
 import ru.aintech.workoutmanager.persistence.Workout;
 import ru.aintech.workoutmanager.persistence.WorkoutRepository;
 import ru.aintech.workoutmanager.persistence.WorkoutScoreManager;
+import ru.aintech.workoutmanager.view.ExercisePart;
 
 /**
  *
@@ -34,6 +35,12 @@ public class WorkoutController {
     
     private WorkoutState state;
     
+    private ExercisePart[] exerciseParts = new ExercisePart[5];
+    
+    private int exercisePartIndex = 0;
+    
+    private ExercisePart[] exerciseFull;
+    
     @Autowired
     public WorkoutController(WorkoutRepository repo) {
         this.repo = repo;
@@ -48,6 +55,7 @@ public class WorkoutController {
         model.addAttribute("workout", workout);
         model.addAttribute("state", state);
         model.addAttribute("buttonName", "Begin Workout");
+        model.addAttribute("exerciseParts", exerciseParts);
         return "workout";
     }
     
@@ -68,6 +76,7 @@ public class WorkoutController {
                 case BEGIN:
                     state = WorkoutState.TRAINING;
                     nextExerciseIndex = 0;
+                    exercisePartIndex = 0;
                     nextSetIndex = 0;
                     break;
                 case TRAINING:
@@ -76,6 +85,7 @@ public class WorkoutController {
                 case RECOVERY_EXERCISE:
                     state = WorkoutState.TRAINING;
                     nextExerciseIndex++;
+                    exercisePartIndex = 0;
                     nextSetIndex = 0;
                     break;
             }
@@ -88,12 +98,14 @@ public class WorkoutController {
                 state = WorkoutState.RECOVERY_EXERCISE;
                 nextSetIndex = 0;
                 nextExerciseIndex++;
+                exercisePartIndex = 0;
             }
         } else if (action.equals("empty")) {//Подразумевается, что была нажата клавиша Enter
             switch (state) {
                 case BEGIN:
                     state = WorkoutState.TRAINING;
                     nextExerciseIndex = 0;
+                    exercisePartIndex = 0;
                     nextSetIndex = 0;
                     break;
                 case TRAINING:
@@ -108,6 +120,7 @@ public class WorkoutController {
                         state = WorkoutState.RECOVERY_EXERCISE;
                         nextSetIndex = 0;
                         nextExerciseIndex++;
+                        exercisePartIndex = 0;
                     }
                     break;
                 case RECOVERY_SET:
@@ -137,6 +150,18 @@ public class WorkoutController {
             }
         }
         
+        if (exercisePartIndex >= exerciseFull.length) {
+            exercisePartIndex = 0;
+        }
+        for (int i = 0; i < 5; i++) {
+            exerciseParts[i] = exerciseFull[i + exercisePartIndex];
+            if (exerciseParts[i] != null && exerciseParts[i].isRecovery()) {
+                exerciseParts[i].setCurrentTimer(i == 2);
+            }
+        }
+        exercisePartIndex++;
+        model.addAttribute("exerciseParts", exerciseParts);
+        
         model.addAttribute("exercise", exercise);
         model.addAttribute("state", state);
         model.addAttribute("buttonName", state == WorkoutState.FINISH? "Finish Workout": "Next Exercise");
@@ -145,8 +170,34 @@ public class WorkoutController {
     
     private void setupExercise () {
         exercise = workout.getExercises()[nextExerciseIndex];
+        exerciseFull = new ExercisePart[exercise.getRepeats().length + (exercise.getRepeats().length - 1) + 4];
+        int repeatsCounter = 0;
+        for (int i = 2; i < exerciseFull.length-2; i++) {
+            if (i % 2 == 0) {
+//                exerciseFull[i] = new ExercisePart(getTitleForSet(repeatsCounter+1), String.valueOf(exercise.getRepeats()[repeatsCounter].getNeed()));
+                exerciseFull[i] = new ExercisePart(getTitleForSet(repeatsCounter+1), exercise.getRepeats()[repeatsCounter]);
+                repeatsCounter++;
+            } else {
+                exerciseFull[i] = new ExercisePart("Recovery", "");
+            }
+        }
         for (Exercise exer : workout.getExercises()) {
             exer.setStyleClass(exer == exercise? "exerciseBlockChecked": "exerciseBlockNotChecked");
         }
+    }
+    
+    private String getTitleForSet (int index) {
+        return "Set " +
+                (index == 1? "I":
+                index == 2? "II":
+                index == 3? "III":
+                index == 4? "IV":
+                index == 5? "V":
+                index == 6? "VI":
+                index == 7? "VII":
+                index == 8? "VIII":
+                index == 9? "XI":
+                index == 10? "X":
+                "unknown");
     }
 }
