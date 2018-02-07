@@ -27,10 +27,10 @@ public class ExerciseController {
         this.repo = repo;
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Exercise> exercises (@RequestParam(value = "group", defaultValue = "BACK") MuscleGroup muscleGroup) {
-        return repo.getExercises(muscleGroup);
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    public List<Exercise> exercises (@RequestParam(value = "group", defaultValue = "BACK") MuscleGroup muscleGroup) {
+//        return repo.getExercises(muscleGroup);
+//    }
     
     @RequestMapping(value = "/{exerciseId}", method = RequestMethod.GET)
     public String exercise (@PathVariable("exerciseId") Integer exerciseId, Model model) {

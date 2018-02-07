@@ -51,13 +51,13 @@ table td.exerciseBlockCheckedUnderline {
 }
 
 table td.setNotStarted {
-    width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;
+    width: 50px; height: 30px; border: solid 1px antiquewhite; text-align: center;
 }
 table td.setInProgress {
-    width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;
+    width: 50px; height: 30px; border: solid 1px black; text-align: center; background-color: yellow;
 }
 table td.setDone {
-    width: 50px; height: 50px; border: solid 1px aquamarine; text-align: center;
+    width: 50px; height: 30px; border: solid 1px aquamarine; text-align: center; background-color: cyan;
 }
 
 h2.scheduleMain {
@@ -90,10 +90,18 @@ table td.workoutMain a:hover {
     color: #000;
 }
 
-table td.exercisePart {
+table td.currentPart {
+    border: 1px solid black;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    font-size: 56px;
+}
+
+table td.otherPart {
     border: 1px solid aquamarine;
     width: 200px;
     height: 200px;
     text-align: center;
-    font-size: 60px;
+    font-size: 56px;
 }

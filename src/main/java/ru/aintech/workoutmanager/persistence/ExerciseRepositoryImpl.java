@@ -1,7 +1,9 @@
 package ru.aintech.workoutmanager.persistence;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,13 +13,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExerciseRepositoryImpl implements ExerciseRepository {
     
-    @Override
-    public List<Exercise> getExercises (MuscleGroup muscleGroup) {
-        return PersistenceManager.getInstance().getExercises().get(muscleGroup);
+    private final SessionFactory sessionFactory;
+    
+    @Autowired
+    public ExerciseRepositoryImpl (SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
-
+    
+    private Session getCurrentSession () {
+        return sessionFactory.getCurrentSession();
+    }
+    
     @Override
     public Exercise getExercise(int id) {
-        return PersistenceManager.getInstance().getAllExercises().stream().filter(exer -> exer.getId() == id).collect(Collectors.toList()).get(0);
+        return getCurrentSession().get(Exercise.class, id);
+    }
+    
+    public List<Exercise> getExercisesForWorkout (int workoutId) {
+        return getCurrentSession().createQuery("from " + ExerciseWorkoutBinding.class.getName() + " where workout.id = " + workoutId).list();
     }
 }

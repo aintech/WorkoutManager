@@ -1,11 +1,14 @@
 insert into _user values (1, 'admin', 'admin');
+
 insert into _schedule values (1, 1, 'Основная тренировка');
+
 insert into _workout values (1, 'Спина');
 insert into _workout values (2, 'Плечи');
 insert into _workout values (3, 'Кардио');
 insert into _workout values (4, 'Ноги');
 insert into _workout values (5, 'Руки');
 insert into _workout values (6, 'Пресс (+Грудь)');
+
 insert into _exercise values (1, 'BACK', 'Тяга гантели в наклоне', '12,10,10,8,6', 16, '');
 insert into _exercise values (2, 'BACK', 'Тяга в наклоне одной гантелью', '12,10,10,8,6', 16, '');
 insert into _exercise values (3, 'SHOULDERS', 'Жим гантелей стоя', '12,10,10,8', 6, '');
@@ -24,3 +27,46 @@ insert into _exercise values (15, 'ARMS', 'Разгибание одной ру�
 insert into _exercise values (16, null, 'Кардио', null, 0, '');
 insert into _exercise values (17, null, 'Отжимания', null, 0, '');
 insert into _exercise values (18, null, 'Пресс', null, 0, '');
+
+insert into _workout_schedule_binding values (1, 1, 1);
+insert into _workout_schedule_binding values (2, 4, 1);
+insert into _workout_schedule_binding values (3, 6, 1);
+insert into _workout_schedule_binding values (4, 5, 1);
+insert into _workout_schedule_binding values (5, 2, 1);
+insert into _workout_schedule_binding values (6, 3, 1);
+
+insert into _exercise_workout_binding values (1, 1, 1);
+insert into _exercise_workout_binding values (2, 2, 1);
+insert into _exercise_workout_binding values (3, 1, 1);
+insert into _exercise_workout_binding values (4, 2, 1);
+insert into _exercise_workout_binding values (5, 3, 2);
+insert into _exercise_workout_binding values (6, 4, 2);
+insert into _exercise_workout_binding values (7, 5, 2);
+insert into _exercise_workout_binding values (8, 6, 2);
+insert into _exercise_workout_binding values (9, 3, 2);
+insert into _exercise_workout_binding values (10, 4, 2);
+insert into _exercise_workout_binding values (11, 5, 2);
+insert into _exercise_workout_binding values (12, 6, 2);
+insert into _exercise_workout_binding values (13, 16, 3);
+insert into _exercise_workout_binding values (14, 7, 4);
+insert into _exercise_workout_binding values (15, 8, 4);
+insert into _exercise_workout_binding values (16, 9, 4);
+insert into _exercise_workout_binding values (17, 10, 4);
+insert into _exercise_workout_binding values (18, 7, 4);
+insert into _exercise_workout_binding values (19, 8, 4);
+insert into _exercise_workout_binding values (20, 9, 4);
+insert into _exercise_workout_binding values (21, 10, 4);
+insert into _exercise_workout_binding values (22, 11, 5);
+insert into _exercise_workout_binding values (23, 12, 5);
+insert into _exercise_workout_binding values (24, 13, 5);
+insert into _exercise_workout_binding values (25, 14, 5);
+insert into _exercise_workout_binding values (26, 15, 5);
+insert into _exercise_workout_binding values (27, 11, 5);
+insert into _exercise_workout_binding values (28, 12, 5);
+insert into _exercise_workout_binding values (29, 13, 5);
+insert into _exercise_workout_binding values (30, 14, 5);
+insert into _exercise_workout_binding values (31, 15, 5);
+insert into _exercise_workout_binding values (32, 17, 6);
+insert into _exercise_workout_binding values (33, 18, 6);
+insert into _exercise_workout_binding values (34, 17, 6);
+insert into _exercise_workout_binding values (35, 18, 6);

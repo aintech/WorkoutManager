@@ -125,7 +125,7 @@
             <id>16</id>
             <group></group>
             <name>Кардио</name>
-            <repeats></repeats>
+            <repeats>0</repeats>
             <weight></weight>
             <external></external>
         </exercise>
@@ -133,7 +133,7 @@
             <id>17</id>
             <group></group>
             <name>Отжимания</name>
-            <repeats></repeats>
+            <repeats>0</repeats>
             <weight></weight>
             <external></external>
         </exercise>
@@ -141,7 +141,7 @@
             <id>18</id>
             <group></group>
             <name>Пресс</name>
-            <repeats></repeats>
+            <repeats>0</repeats>
             <weight></weight>
             <external></external>
         </exercise>

@@ -8,62 +8,58 @@ import ru.aintech.workoutmanager.persistence.Repeat;
  */
 public class ExercisePart {
     
-    private String title;
-    
-    private String message;
+    private final String title;
     
     private Repeat repeat;
     
-    private boolean recovery;
+    private boolean currentPart = false;
     
-    private static int nextId;
+    private int recoveryPeriod = 0;
     
-    private int id;
-    
-    private boolean currentTimer = false;
-    
-    public ExercisePart (String title, String message) {
+    public ExercisePart (String title) {
         this.title = title;
-        this.message = message;
-        recovery = true;
-        id = nextId++;
     }
     
     public ExercisePart (String title, Repeat repeat) {
         this.title = title;
         this.repeat = repeat;
-        recovery = false;
-        id = nextId++;
     }
     
-    public int getId () {
-        return id;
+    public ExercisePart (String title, int recoveryPeriod) {
+        this.title = title;
+        this.recoveryPeriod = recoveryPeriod;
     }
     
     public String getTitle () {
         return title;
     }
     
-    public void setMessage (String message) {
-        this.message = message;
-    }
-    
     public String getMessage () {
         if (repeat != null) {
-            return (repeat.getDone() > 0? (repeat.getDone() + "/"): "") + repeat.getNeed();
+            if (repeat.getNeed() == 0) {
+                return " ";
+            }
+            return repeat.getDone() > 0? (repeat.getDone() + "/" + repeat.getNeed()): (repeat.getNeed() + " reps");
         }
-        return message;
+        if (recoveryPeriod > 0) {
+            return recoveryPeriod + " sec";
+        }
+        return " ";
     }
     
-    public boolean isRecovery () {
-        return recovery;
+    public int getRecoveryPeriod () {
+        return recoveryPeriod;
     }
     
-    public void setCurrentTimer (boolean currentTimer) {
-        this.currentTimer = currentTimer;
+    public void setCurrentPart (boolean currentPart) {
+        this.currentPart = currentPart;
     }
     
     public String getIdentification () {
-        return currentTimer? "recoveryTimer": "notActiveTimer";
+        return recoveryPeriod == 0? getTitle(): currentPart? "currentTimer": "otherTimer";
+    }
+    
+    public String getStyleClass () {
+        return currentPart? "currentPart": "otherPart";
     }
 }

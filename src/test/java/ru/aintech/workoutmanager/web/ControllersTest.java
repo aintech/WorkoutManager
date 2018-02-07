@@ -44,21 +44,21 @@ public class ControllersTest {
 //                .andExpect(MockMvcResultMatchers.model().attributeExists("exerciseList"))
 //                .andExpect(MockMvcResultMatchers.model().attribute("exerciseList", Matchers.hasItems(exercises.toArray())));
 //    }
-    
-    @Test
-    public void exerciseControllerByBodyPart () throws Exception {
-        List<Exercise> backExercises = new ExerciseRepositoryImpl().getExercises(MuscleGroup.BACK);
-        ExerciseRepository repo  = Mockito.mock(ExerciseRepository.class);
-        Mockito.when(repo.getExercises(MuscleGroup.BACK)).thenReturn(backExercises);
-        
-        ExerciseController controller = new ExerciseController(repo);
-        MockMvc mock = MockMvcBuilders.standaloneSetup(controller).setSingleView(new InternalResourceView("/WEB-INF/pages/exercises.jsp")).build();
-        mock.perform(MockMvcRequestBuilders.get("/exercises?group=BACK"))
-                .andExpect(MockMvcResultMatchers.view().name("exercises"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("exerciseList"))
-                .andExpect(MockMvcResultMatchers.model().attribute("exerciseList", Matchers.hasItems(backExercises.toArray())));
-    }
-    
+//    
+//    @Test
+//    public void exerciseControllerByBodyPart () throws Exception {
+//        List<Exercise> backExercises = new ExerciseRepositoryImpl().getExercises(MuscleGroup.BACK);
+//        ExerciseRepository repo  = Mockito.mock(ExerciseRepository.class);
+//        Mockito.when(repo.getExercises(MuscleGroup.BACK)).thenReturn(backExercises);
+//        
+//        ExerciseController controller = new ExerciseController(repo);
+//        MockMvc mock = MockMvcBuilders.standaloneSetup(controller).setSingleView(new InternalResourceView("/WEB-INF/pages/exercises.jsp")).build();
+//        mock.perform(MockMvcRequestBuilders.get("/exercises?group=BACK"))
+//                .andExpect(MockMvcResultMatchers.view().name("exercises"))
+//                .andExpect(MockMvcResultMatchers.model().attributeExists("exerciseList"))
+//                .andExpect(MockMvcResultMatchers.model().attribute("exerciseList", Matchers.hasItems(backExercises.toArray())));
+//    }
+//    
 //    @Test
 //    public void exerciseControllerById () throws Exception {
 //        Exercise exercise = new ExerciseRepository().getExercise(1);

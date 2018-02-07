@@ -191,14 +191,6 @@ class PersistenceManager {
     }
     
     private PersistenceManager () {}
-
-    public Map<MuscleGroup, List<Exercise>> getExercises() {
-        return exercises;
-    }
-
-    public List<Exercise> getAllExercises() {
-        return allExercises;
-    }
     
     public List<Workout> getWorkouts () {
         return workouts;

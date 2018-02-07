@@ -31,7 +31,7 @@ function fireTimer (secs) {
 }
 
 function setTimerExterior (hours, minutes, seconds) {
-    var timer = document.getElementById('recoveryTimer');
+    var timer = document.getElementById('currentTimer');
     
 //    timer.innerHTML = (10 > hours ? "0" : "") + hours + ":" + (10 > minutes ? "0" : "") + minutes + ":" + (10 > seconds ? "0" : "") + seconds;
     timer.innerHTML = (10 > minutes ? "0" : "") + minutes + ":" + (10 > seconds ? "0" : "") + seconds;

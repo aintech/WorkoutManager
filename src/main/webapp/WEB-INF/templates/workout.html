@@ -32,7 +32,7 @@
                     <h2 th:text="@{${exercise.name} + ' [' + ${exercise.weight} + 'kg]'}">Exercise</h2>
                     <table>
                         <tr>
-                            <td class="exercisePart" th:each="exercisePart : ${exerciseParts}">
+                            <td th:each="exercisePart : ${exerciseParts}" th:class="@{${exercisePart == null? 'otherPart': exercisePart.styleClass}}">
                                 <div th:if="${exercisePart != null}" style="text-align: -webkit-center;">
                                     <table style="text-align: center;">
                                         <tr>
@@ -43,15 +43,17 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <div th:if="${exercisePart.recovery}">
+                                                <div th:if="${exercisePart.recoveryPeriod > 0 and exercisePart.identification == 'currentTimer'}">
                                                     <div th:id="${exercisePart.identification}"></div>
-                                                    <script type="text/javascript">
+                                                    <script th:inline="javascript">
+                                                        /*<![CDATA[*/
                                                         window.onload = function () {
-                                                            fireTimer(30);
+                                                            fireTimer(/*[[${exercisePart.recoveryPeriod}]]*/);
                                                         };
+                                                        /*]]>*/
                                                     </script>
                                                 </div>
-                                                <div th:if="${!exercisePart.recovery}">
+                                                <div th:if="${exercisePart.identification != 'currentTimer'}">
                                                     <span th:text="${exercisePart.message}"/>
                                                 </div>
                                             </td>
@@ -61,78 +63,51 @@
                             </td>
                         </tr>
                     </table>
+                    <div style="height: 30px;"></div>
                     <table>
                         <tr>
-                            <td style="border: 1px solid aquamarine;">
-                                <div align="center" th:text="SETS"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table>
-                                    <tr>
-                                        <td th:each="repeat : ${exercise.repeats}" th:class="${repeat.styleClass}">
-                                            <span th:text="${repeat.need}"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td th:each="repeat : ${exercise.repeats}" th:class="${repeat.styleClass}">
-                                            <span th:text="${repeat.done}"/>
-                                        </td>
-                                    </tr>
-                                </table>
+                            <td style="border: 1px solid aquamarine; font-size: 20px; width: 56px; text-align: center;">Sets</td>
+                            <td th:each="repeat : ${exercise.repeats}" th:class="${repeat.styleClass}">
+                                <span th:text="${repeat.need}"/>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <form action="#" th:action="@{'/workout/' + ${workout.id}}" th:object="${repeat}" method="post">
-                    <div th:if="${repeat == null}">
-                        <button type="submit" name="action" th:value="@{proceedAction}" style="width: 500px; height: 150px; font-size: 30px;">
-                            <span th:text="${buttonName}"/>
+                    <div style="height: 30px;"></div>
+                    <div th:if="${state.name == 'BEGIN'}">
+                        <button type="submit" name="action" th:value="@{beginWorkout}" style="width: 500px; height: 150px; font-size: 30px;">
+                            <span>Begin Workout</span>
                         </button>
                     </div>
-                    <div style="height: 30px;"></div>
-                    <div th:if="${state.name == 'TRAINING'}">
-                        <div th:if="${repeat != null}">
-                            <table>
-                                <tr>
-                                    <td th:each="i : ${#numbers.sequence(0, repeat.need)}">
-                                        <button type="submit" name="action" th:value="${i}" style="width: 50px; height: 40px; font-size: 30px;">
-                                            <span th:text="${i}"/>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button type="submit" name="action" th:value="@{'0'}" style="width: 50px; height: 40px; font-size: 30px;">
-                                            <span th:text="@{'0'}"/>
-                                        </button>
-                                    </td>
-                                    <td th:each="i : ${#numbers.sequence(repeat.need+1, repeat.need*2)}">
-                                        <button type="submit" name="action" th:value="${i}" style="width: 50px; height: 40px; font-size: 30px;">
-                                            <span th:text="${i}"/>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                    <div th:if="${state.name == 'FINISH'}">
+                        <button type="submit" name="action" th:value="@{finishWorkout}" style="width: 500px; height: 50px; font-size: 30px;">
+                            <span>Finish Workout</span>
+                        </button>
                     </div>
                     <div th:if="${state.name == 'RECOVERY_SET' or state.name == 'RECOVERY_EXERCISE'}">
-                        <h2>Recovery Time</h2>
-                        <div id="timer" style="font-size: 40px;"></div>
-                        <div th:if="${state.name == 'RECOVERY_SET'}">
-                            <script type="text/javascript">
-                                window.onload = function () {
-                                    fireTimer(30);
-                                };
-                            </script>
-                        </div>
-                        <div th:if="${state.name == 'RECOVERY_EXERCISE'}">
-                            <script type="text/javascript">
-                                window.onload = function () {
-                                    fireTimer(240);
-                                };
-                            </script>
+                        <button type="submit" name="action" th:value="@{skip}" style="width: 500px; height: 50px; font-size: 30px;">
+                            <span>Skip Recovery</span>
+                        </button>
+                    </div>
+                    <div th:if="${state.name == 'TRAINING'}">
+                        <div th:if="${repeat != null}">
+                            <div th:if="${repeat.need == 0}">
+                                <button type="submit" name="action" th:value="@{next}" style="width: 500px; height: 50px; font-size: 30px;">
+                                    <span>Next</span>
+                                </button>
+                            </div>
+                            <div th:if="${repeat.need > 0}">
+                                <table>
+                                    <tr>
+                                        <td th:each="i : ${#numbers.sequence(0, repeat.need)}">
+                                            <button type="submit" name="action" th:value="${i}" style="width: 50px; height: 40px; font-size: 30px;">
+                                                <span th:text="${i}"/>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </form>

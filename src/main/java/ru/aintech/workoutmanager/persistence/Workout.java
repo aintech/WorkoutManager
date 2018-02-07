@@ -25,10 +25,6 @@ public class Workout {
     public int getId() {
         return id;
     }
-
-    public String getIdStr () {
-        return String.valueOf(id);
-    }
     
     public String getName() {
         return name;
@@ -65,5 +61,4 @@ public class Workout {
         }
         return new Workout(id, name, exerCopy);
     }
-    
 }
