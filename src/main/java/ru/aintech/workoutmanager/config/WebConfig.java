@@ -107,8 +107,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public BeanPostProcessor persistenceTranslation () {
         return new PersistenceExceptionTranslationPostProcessor();
     }
-//    @Bean
-//    public MultipartResolver multipartResolver () throws IOException {
-//        return new StandardServletMultipartResolver();
-//    }
 }

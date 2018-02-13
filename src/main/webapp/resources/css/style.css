@@ -24,40 +24,51 @@ body {
 
 
 table td.exerciseBlockNotChecked {
-    width: 120px;
+    font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+    padding: 0 10px 0 10px;
     height: 30px;
     border: solid 1px graytext;
     background-color: aquamarine;
     text-align: center;
 }
 table td.exerciseBlockChecked {
-    width: 120px;
+    font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+    padding: 0 10px 0 10px;
     height: 30px;
     border: solid 1px graytext;
     background-color: lightgoldenrodyellow;
     text-align: center;
 }
 table td.exerciseBlockNotCheckedUnderline {
-    width: 120px;
+    padding: 0 10px 0 10px;
     height: 5px;
-    text-align: center;
 }
 table td.exerciseBlockCheckedUnderline {
-    width: 120px;
+    padding: 0 10px 0 10px;
     height: 5px;
     border: solid 1px graytext;
     background-color: lightgoldenrodyellow;
-    text-align: center;
 }
 
 table td.setNotStarted {
-    width: 50px; height: 30px; border: solid 1px antiquewhite; text-align: center;
+    font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+    width: 50px;
+    height: 30px;
+    border: solid 1px antiquewhite;
+    text-align: center;
 }
 table td.setInProgress {
-    width: 50px; height: 30px; border: solid 1px black; text-align: center; background-color: yellow;
+    width: 50px;
+    height: 30px;
+    border: solid 1px black;
+    text-align: center; background-color: yellow;
 }
 table td.setDone {
-    width: 50px; height: 30px; border: solid 1px aquamarine; text-align: center; background-color: cyan;
+    width: 50px;
+    height: 30px;
+    border: solid 1px aquamarine;
+    text-align: center;
+    background-color: cyan;
 }
 
 h2.scheduleMain {
@@ -96,6 +107,7 @@ table td.currentPart {
     height: 200px;
     text-align: center;
     font-size: 56px;
+    background: aliceblue;
 }
 
 table td.otherPart {
@@ -104,4 +116,5 @@ table td.otherPart {
     height: 200px;
     text-align: center;
     font-size: 56px;
+    background: azure;
 }

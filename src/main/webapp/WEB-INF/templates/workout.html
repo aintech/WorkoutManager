@@ -4,6 +4,7 @@
     <head>
         <title>Workout Manager</title>
         <link rel="stylesheet" type="text/css" href="../../resources/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="../../resources/css/button.css"/>
         <script type="text/javascript" src="../../resources/javascript/scripts.js"/>
     </head>
     <body>
@@ -76,13 +77,15 @@
                 <form action="#" th:action="@{'/workout/' + ${workout.id}}" th:object="${repeat}" method="post">
                     <div style="height: 30px;"></div>
                     <div th:if="${state.name == 'BEGIN'}">
-                        <button type="submit" name="action" th:value="@{beginWorkout}" style="width: 500px; height: 150px; font-size: 30px;">
-                            <span>Begin Workout</span>
+                    <div style="height: 50px;"></div>
+                        <button class="button" type="submit" name="action" th:value="@{beginWorkout}" style="font-size: 30px; height: 150px;">
+                            Begin Workout<span class="begin"><img alt=">>" src="../../resources/images/flag.png"/></span>
                         </button>
                     </div>
                     <div th:if="${state.name == 'FINISH'}">
-                        <button type="submit" name="action" th:value="@{finishWorkout}" style="width: 500px; height: 50px; font-size: 30px;">
-                            <span>Finish Workout</span>
+                    <div style="height: 50px;"></div>
+                        <button class="button" type="submit" name="action" th:value="@{finishWorkout}" style="height: 150px; font-size: 30px;">
+                            Finish Workout<span class="finish"><img alt=">>" src="../../resources/images/finish_flag.png"/></span>
                         </button>
                     </div>
                     <div th:if="${state.name == 'RECOVERY_SET' or state.name == 'RECOVERY_EXERCISE'}">
