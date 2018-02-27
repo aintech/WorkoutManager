@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * @author Yaremchuk E.N. (aka Aintech)
@@ -79,7 +81,15 @@ public class WorkoutScoreManager {
                 }
             }
             
-            int lastPerformedId = Integer.parseInt(generalInfo.get(0).substring(0, generalInfo.get(0).indexOf(" ")).trim());
+            SortedMap<Date, String> trainings = new TreeMap<>();
+            
+            for (String str : generalInfo) {
+                String[] parts = str.split(" - ");
+                trainings.put(DATE_FORMAT.parse(parts[1]), parts[0]);
+            }
+            
+            String lastPerformed = trainings.get(trainings.lastKey());
+            int lastPerformedId = Integer.parseInt(lastPerformed.substring(0, lastPerformed.indexOf(" ")).trim());
             int nextId = -1;
             if (lastPerformedId == workouts[workouts.length - 1].getId()) {
                 nextId = workouts[0].getId();
@@ -95,12 +105,10 @@ public class WorkoutScoreManager {
             
             Map<Integer, Workout> workoutsById = new HashMap<>();
             Arrays.asList(workouts).forEach(workout -> workoutsById.put(workout.getId(), workout));
-            Integer id;
-            Date date;
-            for (String info : generalInfo) {
-                id = Integer.parseInt(info.substring(0, info.indexOf(" ")).trim());
-                date = DATE_FORMAT.parse(info.substring(info.indexOf(" - "), info.length()).replace(" - ", ""));
-                workoutsById.get(id).setLastPerformTime(SHORT_DATE_FORMAT.format(date));
+            
+            for (Map.Entry<Date, String> entry : trainings.entrySet()) {
+                Integer id = Integer.parseInt(entry.getValue().substring(0, entry.getValue().indexOf(" ")).trim());
+                workoutsById.get(id).setLastPerformTime(SHORT_DATE_FORMAT.format(entry.getKey()));
             }
         } catch (Exception  ex) {
             ex.printStackTrace();
