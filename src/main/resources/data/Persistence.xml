@@ -54,7 +54,7 @@
             <group>LEGS</group>
             <name>Приседания с гантелями</name>
             <repeats>12,10,10,8</repeats>
-            <weight>16</weight>
+            <weight>18</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -62,7 +62,7 @@
             <group>LEGS</group>
             <name>Становая тяга гантелями на прямых ногах</name>
             <repeats>12,10,10,8</repeats>
-            <weight>16</weight>
+            <weight>18</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -78,7 +78,7 @@
             <group>LEGS</group>
             <name>Подъём на икры стоя с гантелями</name>
             <repeats>12,10</repeats>
-            <weight>16</weight>
+            <weight>18</weight>
             <external></external>
         </exercise>
         <exercise>
