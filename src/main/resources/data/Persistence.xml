@@ -86,7 +86,7 @@
             <group>ARMS</group>
             <name>Сгибание на бицепс стоя</name>
             <repeats>10,10,10</repeats>
-            <weight>6</weight>
+            <weight>7</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -94,7 +94,7 @@
             <group>ARMS</group>
             <name>Поочерёдное сгибание рук хватом «молоток»</name>
             <repeats>10,10</repeats>
-            <weight>6</weight>
+            <weight>7</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -102,7 +102,7 @@
             <group>ARMS</group>
             <name>Сгибание рук сидя в наклоне</name>
             <repeats>10,10,10</repeats>
-            <weight>6</weight>
+            <weight>7</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -110,7 +110,7 @@
             <group>ARMS</group>
             <name>Разгибание руки назад с гантелью в наклоне</name>
             <repeats>12,12,12</repeats>
-            <weight>6</weight>
+            <weight>7</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -118,7 +118,7 @@
             <group>ARMS</group>
             <name>Разгибание одной рукой с гантелью из-за головы стоя</name>
             <repeats>12,12,12</repeats>
-            <weight>6</weight>
+            <weight>7</weight>
             <external></external>
         </exercise>
         <exercise>
