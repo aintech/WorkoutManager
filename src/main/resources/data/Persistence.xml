@@ -6,7 +6,7 @@
             <group>BACK</group>
             <name>Тяга гантели в наклоне</name>
             <repeats>12,10,10,8,6</repeats>
-            <weight>16</weight>
+            <weight>18</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -14,7 +14,7 @@
             <group>BACK</group>
             <name>Тяга в наклоне одной гантелью</name>
             <repeats>12,10,10,8,6</repeats>
-            <weight>16</weight>
+            <weight>18</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -22,7 +22,7 @@
             <group>SHOULDERS</group>
             <name>Жим гантелей стоя</name>
             <repeats>12,10,10,8</repeats>
-            <weight>6</weight>
+            <weight>7</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -30,7 +30,7 @@
             <group>SHOULDERS</group>
             <name>Разведение гантелей в стороны</name>
             <repeats>12,10,10</repeats>
-            <weight>6</weight>
+            <weight>7</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -38,7 +38,7 @@
             <group>SHOULDERS</group>
             <name>Разведение гантелей в наклоне</name>
             <repeats>12,10,10</repeats>
-            <weight>6</weight>
+            <weight>7</weight>
             <external></external>
         </exercise>
         <exercise>
@@ -150,7 +150,7 @@
         <workout>
             <id>1</id>
             <name>Спина</name>
-            <exercises>1,2,1,2</exercises>
+            <exercises>1,2</exercises>
         </workout>
         <workout>
             <id>2</id>
@@ -165,7 +165,7 @@
         <workout>
             <id>4</id>
             <name>Ноги</name>
-            <exercises>7,8,9,10,7,8,9,10</exercises>
+            <exercises>7,8,9,10</exercises>
         </workout>
         <workout>
             <id>5</id>
