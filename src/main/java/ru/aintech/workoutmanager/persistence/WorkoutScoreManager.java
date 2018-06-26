@@ -108,7 +108,9 @@ public class WorkoutScoreManager {
             
             for (Map.Entry<Date, String> entry : trainings.entrySet()) {
                 Integer id = Integer.parseInt(entry.getValue().substring(0, entry.getValue().indexOf(" ")).trim());
-                workoutsById.get(id).setLastPerformTime(SHORT_DATE_FORMAT.format(entry.getKey()));
+                if (workoutsById.containsKey(id)) {
+                    workoutsById.get(id).setLastPerformTime(SHORT_DATE_FORMAT.format(entry.getKey()));
+                }
             }
         } catch (Exception  ex) {
             ex.printStackTrace();
