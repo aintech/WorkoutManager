@@ -41,7 +41,7 @@ public class WorkoutScoreManager {
             if (exercise.getWeight() > 0) {
                 score.append(" (").append(exercise.getWeight()).append(" кг)");
             }
-            if (exercise.getRepeats().length > 0) {
+            if (!exercise.getRepeats().isEmpty()) {
                 score.append(" :");
                 for (Repeat rep : exercise.getRepeats()) {
                     score.append(" ").append(rep);
