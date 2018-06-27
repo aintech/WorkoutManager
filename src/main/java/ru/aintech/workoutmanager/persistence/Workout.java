@@ -1,22 +1,39 @@
 package ru.aintech.workoutmanager.persistence;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 /**
  *
  * @author Yaremchuk E.N. (aka Aintech)
  */
-public class Workout {
+
+@Entity(name = "_workout")
+public class Workout implements Serializable {
     
-    private final int id;
+    @Id
+    @Column(name = "_id")
+    private int id;
     
-    private final String name;
+    @Column(name = "_name")
+    private String name;
     
-    private final Exercise[] exercises;
+    @OneToMany(mappedBy = "workout")
+    private List<Exercise> exercises;
     
     private transient boolean nextToPerform;
     
     private transient String lastPerformTime;
     
-    public Workout(int id, String name, Exercise[] exercises) {
+    public Workout () {}
+    
+    public Workout(int id, String name, List<Exercise> exercises) {
         this.id = id;
         this.name = name;
         this.exercises = exercises;
@@ -25,13 +42,25 @@ public class Workout {
     public int getId() {
         return id;
     }
-    
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    public Exercise[] getExercises() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Exercise> getExercises() {
         return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
     
     public String getColor () {
@@ -55,10 +84,8 @@ public class Workout {
     }
     
     public Workout getCopy () {
-        Exercise[] exerCopy = new Exercise[exercises.length];
-        for (int i = 0; i < exerCopy.length; i++) {
-            exerCopy[i] = exercises[i].getCopy();
-        }
+        List<Exercise> exerCopy = new ArrayList<>();
+        getExercises().forEach(exercise -> exerCopy.add(exercise.getCopy()));
         return new Workout(id, name, exerCopy);
     }
 }

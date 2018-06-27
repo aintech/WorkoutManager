@@ -3,9 +3,10 @@ package ru.aintech.workoutmanager.persistence;
 import java.util.List;
 
 /**
+ *
  * @author Yaremchuk E.N. (aka Aintech)
  */
-public interface ExerciseRepository {
-    Exercise save (Exercise exercise);
-    Exercise getExercise (int id);
+public interface RepeatRepository {
+    Repeat save (Repeat repeat);
+    Repeat getRepeat (int id);
 }

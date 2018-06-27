@@ -1,18 +1,59 @@
 package ru.aintech.workoutmanager.persistence;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 /**
  * @author Yaremchuk E.N. (aka Aintech)
  */
-public class Repeat {
+
+@Entity(name = "_repeat")
+public class Repeat implements Serializable {
     
+    @Id
+    @Column(name = "_id")
+    private int id;
+    
+    @ManyToOne
+    @JoinColumn(name = "_exercise_id")
+    private Exercise exercise;
+    
+    @Column(name = "_need")
     private int need;
     
-    private int done;
+    private transient int done;
     
-    private String styleClass;
+    private transient String styleClass;
 
+    public Repeat () {}
+    
+    public Repeat (int id, int need) {
+        this(need);
+        this.id = id;
+    }
+    
     public Repeat(int need) {
         this.need = need;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public Exercise getExercise() {
+        return exercise;
+    }
+
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 
     public int getNeed() {
