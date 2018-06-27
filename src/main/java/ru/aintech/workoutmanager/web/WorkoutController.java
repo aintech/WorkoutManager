@@ -137,7 +137,7 @@ public class WorkoutController {
     }
     
     private void setupExercise () {
-        exercise = workout.getExercises().get(nextRepeatIndex);
+        exercise = workout.getExercises().get(nextExerciseIndex);
         //2 null впереди, repeat, recovery, repeat, recovery, repeat... + в конце долгий recovery после упражнения, 2 null в конце
         exerciseFull = new ExercisePart[2 + exercise.getRepeats().size() * 2 + 2];
         int repeatsCounter = 0;

@@ -138,7 +138,6 @@ public class Exercise implements Serializable{
     }
     
     public String getStyleClass () {
-        System.out.println(getName() + " - " + getRepeats().size());
         return styleClass;
     }
 
