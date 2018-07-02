@@ -141,7 +141,7 @@ class PersistenceManager {
                         }
                     }
                     
-                    workout = new Workout(id, name, exercises);
+                    workout = new Workout(id, name, Arrays.asList(exercises));
                     workoutById.put(id, workout);
                     workouts.add(workout);
                 }

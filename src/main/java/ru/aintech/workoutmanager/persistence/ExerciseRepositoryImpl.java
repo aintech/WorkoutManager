@@ -1,5 +1,6 @@
 package ru.aintech.workoutmanager.persistence;
 
+import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,6 +23,12 @@ public class ExerciseRepositoryImpl implements ExerciseRepository {
     
     private Session getCurrentSession () {
         return sessionFactory.getCurrentSession();
+    }
+
+    @Override
+    public Exercise save(Exercise exercise) {
+        Serializable id = getCurrentSession().save(exercise);
+        return new Exercise(((Exercise)id).getId(), exercise.getName(), exercise.getWeight(), exercise.getRepeats(), exercise.getExternal());
     }
     
     @Override

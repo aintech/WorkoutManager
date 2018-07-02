@@ -1,5 +1,7 @@
 package ru.aintech.workoutmanager.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.aintech.workoutmanager.persistence.Exercise;
+import ru.aintech.workoutmanager.persistence.MuscleGroup;
 import ru.aintech.workoutmanager.persistence.Repeat;
 import ru.aintech.workoutmanager.persistence.Workout;
 import ru.aintech.workoutmanager.persistence.WorkoutRepository;
@@ -56,6 +59,20 @@ public class WorkoutController {
         model.addAttribute("state", state);
         model.addAttribute("buttonName", "Begin Workout");
         model.addAttribute("exerciseParts", exerciseParts);
+        
+        List<Exercise> exercises = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            List<Repeat> repeats = new ArrayList<>();
+            for (int j = 0; j < 4; j++) {
+                repeats.add(new Repeat(10));
+            }
+            exercises.add(new Exercise("name " + i, 50, repeats, "empty"));
+        }
+        
+        Workout work = new Workout(100, "TEMPY", exercises);
+        
+        
+        
         return "workout";
     }
     
@@ -82,19 +99,19 @@ public class WorkoutController {
             proceedWithValue(Integer.parseInt(action));
         }
         
-        boolean noRepeat = nextExerciseIndex < workout.getExercises().length && (workout.getExercises()[nextExerciseIndex].getRepeats() == null || workout.getExercises()[nextExerciseIndex].getRepeats().length == 0);
+        boolean noRepeat = nextExerciseIndex < workout.getExercises().size() && workout.getExercises().get(nextExerciseIndex).getRepeats().isEmpty();
         
-        if (noRepeat && nextExerciseIndex == workout.getExercises().length - 1) {
+        if (noRepeat && nextExerciseIndex == workout.getExercises().size() - 1) {
             state = WorkoutState.FINISH;
         } else {
-            if (nextExerciseIndex == workout.getExercises().length) {
+            if (nextExerciseIndex == workout.getExercises().size()) {
                 state = WorkoutState.FINISH;
             } else {
-                if (nextRepeatIndex < exercise.getRepeats().length) {
-                    for (int i = 0; i < exercise.getRepeats().length; i++) {
-                        exercise.getRepeats()[i].setStyleClass(i == nextRepeatIndex? "setInProgress": i < nextRepeatIndex? "setDone": "setNotStarted");
+                if (nextRepeatIndex < exercise.getRepeats().size()) {
+                    for (int i = 0; i < exercise.getRepeats().size(); i++) {
+                        exercise.getRepeats().get(i).setStyleClass(i == nextRepeatIndex? "setInProgress": i < nextRepeatIndex? "setDone": "setNotStarted");
                     }
-                    Repeat repeat = exercise.getRepeats()[nextRepeatIndex];
+                    Repeat repeat = exercise.getRepeats().get(nextRepeatIndex);
                     model.addAttribute("repeat", repeat);
                 }
             }
@@ -120,20 +137,20 @@ public class WorkoutController {
     }
     
     private void setupExercise () {
-        exercise = workout.getExercises()[nextExerciseIndex];
+        exercise = workout.getExercises().get(nextExerciseIndex);
         //2 null впереди, repeat, recovery, repeat, recovery, repeat... + в конце долгий recovery после упражнения, 2 null в конце
-        exerciseFull = new ExercisePart[2 + exercise.getRepeats().length * 2 + 2];
+        exerciseFull = new ExercisePart[2 + exercise.getRepeats().size() * 2 + 2];
         int repeatsCounter = 0;
         for (int i = 2; i < exerciseFull.length-2; i++) {
             if (i % 2 == 0) {
-                if (exercise.getRepeats()[repeatsCounter].getNeed() == 0) {
+                if (exercise.getRepeats().get(repeatsCounter).getNeed() == 0) {
                     exerciseFull[i] = new ExercisePart("External Link");
                 } else {
-                    exerciseFull[i] = new ExercisePart(getTitleForRepeat(repeatsCounter + 1), exercise.getRepeats()[repeatsCounter]);
+                    exerciseFull[i] = new ExercisePart(getTitleForRepeat(repeatsCounter + 1), exercise.getRepeats().get(repeatsCounter));
                 }
                 repeatsCounter++;
             } else {
-                boolean workoutFinish = nextExerciseIndex == (workout.getExercises().length - 1) && (i == exerciseFull.length - 3);
+                boolean workoutFinish = nextExerciseIndex == (workout.getExercises().size() - 1) && (i == exerciseFull.length - 3);
                 if (workoutFinish) {
                     exerciseFull[i] = new ExercisePart("Finish");
                 } else {
@@ -160,7 +177,7 @@ public class WorkoutController {
                 beginWorkout();
                 break;
             case TRAINING:
-                Repeat repeat = workout.getExercises()[nextExerciseIndex].getRepeats()[nextRepeatIndex];
+                Repeat repeat = workout.getExercises().get(nextExerciseIndex).getRepeats().get(nextRepeatIndex);
                 proceedWithValue(repeat.getNeed());
                 break;
             case RECOVERY_SET:
@@ -171,7 +188,7 @@ public class WorkoutController {
                 nextRepeatIndex = 0;
                 nextExerciseIndex++;
                 exercisePartIndex = 0;
-                if (nextExerciseIndex == workout.getExercises().length) {
+                if (nextExerciseIndex == workout.getExercises().size()) {
                     state = WorkoutState.FINISH;
                 } else {
                     state = WorkoutState.TRAINING;
@@ -182,11 +199,11 @@ public class WorkoutController {
     }
     
     private void proceedWithValue (Integer value) {
-        workout.getExercises()[nextExerciseIndex].getRepeats()[nextRepeatIndex].setDone(value);
-        if (nextRepeatIndex < exercise.getRepeats().length-1) {
+        workout.getExercises().get(nextExerciseIndex).getRepeats().get(nextRepeatIndex).setDone(value);
+        if (nextRepeatIndex < exercise.getRepeats().size() - 1) {
             state = WorkoutState.RECOVERY_SET;
         } else {
-            if (nextExerciseIndex == (workout.getExercises().length - 1) && nextRepeatIndex == (workout.getExercises()[nextExerciseIndex].getRepeats().length - 1)) {
+            if (nextExerciseIndex == (workout.getExercises().size() - 1) && nextRepeatIndex == (workout.getExercises().get(nextExerciseIndex).getRepeats().size() - 1)) {
                 state = WorkoutState.FINISH;
             } else {
                 state = WorkoutState.RECOVERY_EXERCISE;
@@ -209,7 +226,7 @@ public class WorkoutController {
                 index == 6? "VI":
                 index == 7? "VII":
                 index == 8? "VIII":
-                index == 9? "XI":
+                index == 9? "IX":
                 index == 10? "X":
                 "unknown");
     }
